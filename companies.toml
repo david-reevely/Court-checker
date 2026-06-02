@@ -363,7 +363,7 @@ searches = [
 [[companies]]
 name = "Maple (telemedicine)"
 searches = [
-  { term = "MAPLE TECHNOLOGIES", type = "contains" },
+  { term = "Maple Corporation", type = "exact" },
 ]
 
 [[companies]]
