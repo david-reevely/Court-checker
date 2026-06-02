@@ -3,8 +3,8 @@
 [email]
 smtp_host = "smtp.gmail.com"
 smtp_port = 587
-smtp_user = "you@gmail.com"       # your Gmail address
-recipient = "you@yourdomain.com"  # where the digest goes
+smtp_user = "david.reevely@thelogic.co"       # your Gmail address
+recipient = "david.reevely@thelogic.co"  # where the digest goes
 subject_prefix = "[Courts]"
 
 # Email password is NOT stored here.
