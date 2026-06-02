@@ -1,0 +1,16 @@
+# Ontario Courts Monitor — Configuration
+
+[email]
+smtp_host = "smtp.gmail.com"
+smtp_port = 587
+smtp_user = "you@gmail.com"       # your Gmail address
+recipient = "you@yourdomain.com"  # where the digest goes
+subject_prefix = "[Courts]"
+
+# Email password is NOT stored here.
+# Set the environment variable SMTP_PASS to your Gmail app password.
+# (For GitHub Actions, add it as a repository secret.)
+
+[settings]
+# Toronto (Superior Court of Justice — Civil and Small Claims Court)
+court_id = "68f021c4-6a44-4735-9a76-5360b2e8af13"
