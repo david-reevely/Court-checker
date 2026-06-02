@@ -1,0 +1,43 @@
+name: Ontario Courts Monitor
+
+on:
+  schedule:
+    # Runs at 7:00 AM Eastern (12:00 UTC) on weekdays
+    - cron: "0 12 * * 1-5"
+  workflow_dispatch:  # allows manual runs from GitHub Actions tab
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: cache.json
+          key: courts-cache-${{ github.run_id }}
+          restore-keys: |
+            courts-cache-
+
+      - name: Run monitor
+        env:
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: python monitor.py
+
+      - name: Commit updated cache
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cache.json
+          git diff --staged --quiet || git commit -m "Update courts cache [skip ci]"
+          git push
