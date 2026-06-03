@@ -98,6 +98,19 @@ def search_parties(search_term, search_type_code, court_id):
         data = resp.json()
 
         batch = data.get("_embedded", {}).get("results", [])
+
+        # The API treats multi-word contains searches as OR (any word matches).
+        # Post-filter to require the full phrase to appear in the party name.
+        if search_type_code == SEARCH_TYPES["contains"] and " " in search_term:
+            phrase = search_term.upper()
+            batch = [
+                r for r in batch
+                if phrase in r.get("partyHeader", {})
+                              .get("partyActorInstance", {})
+                              .get("displayName", "")
+                              .upper()
+            ]
+
         results.extend(batch)
 
         page_info = data.get("page", {})
