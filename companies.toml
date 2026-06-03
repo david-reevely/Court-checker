@@ -23,22 +23,22 @@ searches = [
   { term = "THE BELL TELEPHONE COMPANY OF CANADA", type = "exact" },
   { term = "BELL EXPRESSVU INC.", type = "exact" },
   { term = "BELL TECHNICAL SOLUTIONS INC.", type = "exact" },
+  { term = "BCE", type = "exact" },
 ]
 
 [[companies]]
 name = "Rogers Communications"
 searches = [
-  { term = "ROGERS COMMUNICATIONS CANADA INC.", type = "exact" },
-  { term = "ROGERS COMMUNICATIONS INC.", type = "exact" },
-  { term = "ROGERS MEDIA INC.", type = "exact" },
-  { term = "FIDO SOLUTIONS INC.", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS CANADA", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS", type = "contains" },
+  { term = "ROGERS MEDIA", type = "contains" },
+  { term = "FIDO SOLUTIONS", type = "contains" },
 ]
 
 [[companies]]
 name = "Telus"
 searches = [
-  { term = "TELUS COMMUNICATIONS INC.", type = "exact" },
-  { term = "TELUS COMMUNICATIONS COMPANY", type = "exact" },
+  { term = "TELUS", type = "contains" },
 ]
 
 [[companies]]
@@ -82,7 +82,7 @@ searches = [
 [[companies]]
 name = "General Dynamics"
 searches = [
-  { term = "DYNAMICS", type = "contains" },
+  { term = "GENERAL DYNAMICS", type = "contains" },
 ]
 
 [[companies]]
@@ -207,7 +207,7 @@ searches = [
 [[companies]]
 name = "General Fusion"
 searches = [
-  { term = "GENERAL FUSION", type = "exact" },
+  { term = "GENERAL FUSION", type = "contains" },
 ]
 
 [[companies]]
@@ -245,7 +245,7 @@ searches = [
 [[companies]]
 name = "Kepler Communications"
 searches = [
-  { term = "KEPLER COMMUNICATIONS", type = "exact" },
+  { term = "KEPLER", type = "contains" },
 ]
 
 [[companies]]
@@ -383,7 +383,7 @@ searches = [
 [[companies]]
 name = "Photonic Inc"
 searches = [
-  { term = "PHOTONIC INC", type = "exact" },
+  { term = "PHOTONIC", type = "contains" },
 ]
 
 [[companies]]
@@ -419,7 +419,7 @@ searches = [
 [[companies]]
 name = "Air Canada"
 searches = [
-  { term = "AIR CANADA", type = "exact" },
+  { term = "AIR CANADA", type = "contains" },
 ]
 
 [[companies]]
