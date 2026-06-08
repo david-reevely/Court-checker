@@ -56,11 +56,11 @@
     <div class="section-heading">Your details</div>
     <div class="field">
       <label for="reporter-name">Your name</label>
-      <input type="text" id="reporter-name" placeholder="e.g. Joanna Smith">
+      <input type="text" id="reporter-name" placeholder="e.g. Jane Jones">
     </div>
     <div class="field">
       <label for="reporter-email">Your email address</label>
-      <input type="email" id="reporter-email" placeholder="e.g. jsmith@thelogic.co">
+      <input type="email" id="reporter-email" placeholder="e.g. jane.jones@thelogic.co">
       <p class="hint">Daily digests will be sent here.</p>
     </div>
   </div>
@@ -107,7 +107,7 @@
     const containsChecked = (!type || type === "contains") ? "checked" : "";
     const exactChecked = (type === "exact") ? "checked" : "";
     row.innerHTML = `
-      <input type="text" placeholder="e.g. Telesat" value="${name || ""}">
+      <input type="text" placeholder="e.g. Shopify" value="${name || ""}">
       <div style="display:flex; align-items:center; gap:6px;">
         <div class="search-type">
           <input type="radio" name="${id}" id="${id}c" value="contains" ${containsChecked}>
