@@ -2,7 +2,7 @@
 """
 Ontario Courts Monitor
 Checks the Ontario courts portal for new civil cases involving tracked companies
-and emails a daily digest.
+and emails a daily digest to each configured reporter.
 """
 
 import json
@@ -23,12 +23,10 @@ import tomllib
 SCRIPT_DIR = Path(__file__).parent
 CACHE_FILE = SCRIPT_DIR / "cache.json"
 CONFIG_FILE = SCRIPT_DIR / "config.toml"
-COMPANIES_FILE = SCRIPT_DIR / "companies.toml"
 
 API_BASE = "https://api1.courts.ontario.ca"
 PORTAL_BASE = "https://courts.ontario.ca/portal"
 
-# Search type codes
 SEARCH_TYPES = {
     "contains": "300054",
     "exact":    "300012",
@@ -48,10 +46,18 @@ def load_config():
     with open(CONFIG_FILE, "rb") as f:
         return tomllib.load(f)
 
-def load_companies():
-    with open(COMPANIES_FILE, "rb") as f:
-        data = tomllib.load(f)
-    return data.get("companies", [])
+def load_reporter_files():
+    """
+    Find all *companies.toml files in the script directory.
+    Each file represents one reporter's watchlist.
+    Returns list of (path, data) tuples.
+    """
+    reporters = []
+    for path in sorted(SCRIPT_DIR.glob("*companies.toml")):
+        with open(path, "rb") as f:
+            data = tomllib.load(f)
+        reporters.append((path, data))
+    return reporters
 
 
 # ── Cache ─────────────────────────────────────────────────────────────────────
@@ -72,8 +78,8 @@ def save_cache(cache):
 def search_parties(search_term, search_type_code, court_id):
     """
     Search for a party name in the Ontario courts index.
-    Returns a list of result dicts (one per party-in-case row).
-    Handles pagination automatically.
+    Returns a list of result dicts. Handles pagination.
+    Post-filters multi-word contains searches to require the full phrase.
     """
     results = []
     page = 0
@@ -99,8 +105,8 @@ def search_parties(search_term, search_type_code, court_id):
 
         batch = data.get("_embedded", {}).get("results", [])
 
-        # The API treats multi-word contains searches as OR (any word matches).
-        # Post-filter to require the full phrase to appear in the party name.
+        # The API treats multi-word contains searches as OR.
+        # Post-filter to require the full phrase in the party name.
         if search_type_code == SEARCH_TYPES["contains"] and " " in search_term:
             phrase = search_term.upper()
             batch = [
@@ -117,11 +123,9 @@ def search_parties(search_term, search_type_code, court_id):
         total_pages = page_info.get("totalPages", 1)
         total_elements = page_info.get("totalElements", 0)
 
-        # Warn if we're hitting the API cap (10,000 results)
         if total_elements >= 10000:
-            print(f"  WARNING: search '{search_term}' hit the 10,000 result cap — "
-                  f"results may be incomplete. Consider using 'exact' search type.",
-                  file=sys.stderr)
+            print(f"  WARNING: search '{search_term}' hit the 10,000 result cap. "
+                  f"Consider switching to 'exact' search type.", file=sys.stderr)
 
         if page + 1 >= total_pages:
             break
@@ -135,7 +139,6 @@ def case_url(court_id, case_uuid):
 
 
 def parse_filed_date(raw):
-    """Return a friendly date string from ISO timestamp, or raw if unparseable."""
     try:
         dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
         return dt.strftime("%B %d, %Y")
@@ -145,10 +148,10 @@ def parse_filed_date(raw):
 
 # ── Core logic ────────────────────────────────────────────────────────────────
 
-def check_companies(companies, court_id, cache):
+def check_companies(companies, court_id, cache, cache_prefix):
     """
-    For each company, run all configured searches and return any cases
-    not previously seen. Updates cache in place.
+    Run all searches for a reporter's company list.
+    cache_prefix is used to namespace cache keys per reporter.
     Returns (findings list, errors list).
     """
     findings = []
@@ -162,16 +165,14 @@ def check_companies(companies, court_id, cache):
             errors.append(f"{name}: no searches configured")
             continue
 
-        # Collect all case UUIDs across all searches for this company
-        all_cases = {}  # uuid -> case_info dict
+        all_cases = {}
 
         for search in searches:
-            term = search.get("term", "")
+            term = search.get("term", "").strip()
             stype = search.get("type", "contains")
             type_code = SEARCH_TYPES.get(stype, SEARCH_TYPES["contains"])
 
             if not term:
-                errors.append(f"{name}: empty search term, skipping")
                 continue
 
             try:
@@ -204,20 +205,17 @@ def check_companies(companies, court_id, cache):
                 if entry not in all_cases[uuid]["parties"]:
                     all_cases[uuid]["parties"].append(entry)
 
-        # Compare against cache
-        cache_key = f"company:{name}"
+        cache_key = f"{cache_prefix}:company:{name}"
         known_uuids = set(cache.get(cache_key, []))
         new_uuids = set(all_cases.keys()) - known_uuids
 
         for uuid in new_uuids:
-            case_info = all_cases[uuid]
             findings.append({
                 "company_name": name,
                 "court_id": court_id,
-                **case_info,
+                **all_cases[uuid],
             })
 
-        # Update cache with all currently active UUIDs
         cache[cache_key] = list(all_cases.keys())
 
     return findings, errors
@@ -225,28 +223,28 @@ def check_companies(companies, court_id, cache):
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 
-def build_email_body(findings, errors, run_time):
-    """Build plain-text and HTML versions of the digest."""
-
+def build_email_body(findings, errors, run_time, reporter_name):
     date_str = run_time.strftime("%A, %B %d, %Y")
+    greeting = f"Hi {reporter_name.split()[0]}," if reporter_name else ""
 
     if not findings and not errors:
         subject_suffix = "Nothing new"
-        plain = f"Ontario Courts Monitor — {date_str}\n\nNo new cases found for any tracked company.\n"
-        html = f"""
-        <p><strong>Ontario Courts Monitor — {date_str}</strong></p>
-        <p>No new cases found for any tracked company.</p>
-        """
+        plain = f"Ontario Courts Monitor — {date_str}\n\n{greeting}\n\nNo new cases found for any of your tracked companies.\n"
+        html = f"<p>{greeting}</p><p><strong>Ontario Courts Monitor — {date_str}</strong></p><p>No new cases found for any of your tracked companies.</p>"
     else:
         subject_suffix = f"{len(findings)} new case(s)" if findings else "Errors only"
         lines_plain = [f"Ontario Courts Monitor — {date_str}", ""]
-        html_parts = [f"<p><strong>Ontario Courts Monitor — {date_str}</strong></p>"]
+        if greeting:
+            lines_plain = [greeting, ""] + lines_plain
+        html_parts = []
+        if greeting:
+            html_parts.append(f"<p>{greeting}</p>")
+        html_parts.append(f"<p><strong>Ontario Courts Monitor — {date_str}</strong></p>")
 
         if findings:
             lines_plain.append(f"{len(findings)} new case(s) found:\n")
             html_parts.append(f"<p>{len(findings)} new case(s) found:</p>")
 
-            # Group by company
             by_company = {}
             for f in findings:
                 by_company.setdefault(f["company_name"], []).append(f)
@@ -293,16 +291,7 @@ def build_email_body(findings, errors, run_time):
     return subject_suffix, plain, html
 
 
-def send_email(config, subject_suffix, plain_body, html_body):
-    cfg = config["email"]
-    smtp_pass = os.environ.get("SMTP_PASS") or os.environ.get("GMAIL_APP_PASSWORD")
-    if not smtp_pass:
-        raise ValueError("No SMTP password found. Set SMTP_PASS environment variable.")
-
-    subject = f"{cfg.get('subject_prefix', '[Courts]')} {subject_suffix}"
-    sender = cfg["smtp_user"]
-    recipient = cfg["recipient"]
-
+def send_email(smtp_cfg, smtp_pass, sender, recipient, subject, plain_body, html_body):
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = sender
@@ -310,13 +299,11 @@ def send_email(config, subject_suffix, plain_body, html_body):
     msg.attach(MIMEText(plain_body, "plain"))
     msg.attach(MIMEText(html_body, "html"))
 
-    with smtplib.SMTP(cfg["smtp_host"], cfg["smtp_port"]) as server:
+    with smtplib.SMTP(smtp_cfg["smtp_host"], smtp_cfg["smtp_port"]) as server:
         server.ehlo()
         server.starttls()
         server.login(sender, smtp_pass)
         server.sendmail(sender, recipient, msg.as_string())
-
-    print(f"Email sent: {subject}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -330,36 +317,62 @@ def main():
         print(f"ERROR: Could not load config.toml: {e}", file=sys.stderr)
         sys.exit(1)
 
-    try:
-        companies = load_companies()
-    except Exception as e:
-        print(f"ERROR: Could not load companies.toml: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    if not companies:
-        print("No companies configured. Add entries to companies.toml.")
-        sys.exit(0)
-
+    smtp_cfg = config.get("email", {})
+    sender = smtp_cfg.get("smtp_user", "")
+    subject_prefix = smtp_cfg.get("subject_prefix", "[Courts]")
     court_id = config.get("settings", {}).get(
         "court_id", "68f021c4-6a44-4735-9a76-5360b2e8af13"
     )
 
-    cache = load_cache()
-    findings, errors = check_companies(companies, court_id, cache)
-    save_cache(cache)
-
-    subject_suffix, plain_body, html_body = build_email_body(findings, errors, run_time)
-
-    print(f"Run complete: {len(findings)} new case(s), {len(errors)} error(s)")
-    if findings:
-        for f in findings:
-            print(f"  NEW: {f['company_name']} — {f['case_number']} — {f['case_title']}")
-
-    try:
-        send_email(config, subject_suffix, plain_body, html_body)
-    except Exception as e:
-        print(f"ERROR sending email: {e}", file=sys.stderr)
+    smtp_pass = os.environ.get("SMTP_PASS") or os.environ.get("GMAIL_APP_PASSWORD")
+    if not smtp_pass:
+        print("ERROR: No SMTP password found. Set SMTP_PASS environment variable.", file=sys.stderr)
         sys.exit(1)
+
+    reporter_files = load_reporter_files()
+    if not reporter_files:
+        print("No *companies.toml files found.")
+        sys.exit(0)
+
+    cache = load_cache()
+    total_findings = 0
+    total_errors = 0
+
+    for path, data in reporter_files:
+        reporter_info = data.get("reporter", {})
+        reporter_name = reporter_info.get("name", path.stem)
+        recipient = reporter_info.get("email", "")
+        companies = data.get("companies", [])
+
+        if not recipient:
+            print(f"  SKIP {path.name}: no email address configured")
+            continue
+
+        if not companies:
+            print(f"  SKIP {path.name}: no companies configured")
+            continue
+
+        # Use the filename stem as cache namespace to keep reporters separate
+        cache_prefix = path.stem
+
+        print(f"Checking {reporter_name} ({path.name}, {len(companies)} companies)...")
+        findings, errors = check_companies(companies, court_id, cache, cache_prefix)
+        total_findings += len(findings)
+        total_errors += len(errors)
+
+        subject_suffix, plain_body, html_body = build_email_body(
+            findings, errors, run_time, reporter_name
+        )
+        subject = f"{subject_prefix} {subject_suffix}"
+
+        try:
+            send_email(smtp_cfg, smtp_pass, sender, recipient, subject, plain_body, html_body)
+            print(f"  → {len(findings)} new case(s), {len(errors)} error(s) — emailed to {recipient}")
+        except Exception as e:
+            print(f"  ERROR sending to {recipient}: {e}", file=sys.stderr)
+
+    save_cache(cache)
+    print(f"\nDone. {total_findings} total new case(s), {total_errors} total error(s) across {len(reporter_files)} reporter(s).")
 
 
 if __name__ == "__main__":
