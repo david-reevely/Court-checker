@@ -1,16 +1,19 @@
-# Ontario Courts Monitor — Configuration
+# Ontario Courts Monitor — Global Configuration
+#
+# This file controls email sending and court settings.
+# Each reporter's company list and email address lives in their own
+# *companies.toml file (e.g. davidreevelycompanies.toml).
 
 [email]
 smtp_host = "smtp.gmail.com"
 smtp_port = 587
-smtp_user = "david.reevely@thelogic.co"       # your Gmail address
-recipient = "david.reevely@thelogic.co"  # where the digest goes
+smtp_user = "you@gmail.com"       # Gmail address used to send all digests
 subject_prefix = "[Courts]"
 
 # Email password is NOT stored here.
 # Set the environment variable SMTP_PASS to your Gmail app password.
-# (For GitHub Actions, add it as a repository secret.)
+# In GitHub Actions, add it as a repository secret named SMTP_PASS.
 
 [settings]
-# Toronto (Superior Court of Justice — Civil and Small Claims Court)
+# Toronto — Superior Court of Justice, Civil and Small Claims Court
 court_id = "68f021c4-6a44-4735-9a76-5360b2e8af13"
