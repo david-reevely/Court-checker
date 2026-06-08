@@ -88,10 +88,21 @@
     <div class="card">
       <div class="section-heading">Your configuration</div>
       <div class="toml-box" id="toml-output"></div>
-      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <button class="copy-btn" onclick="copyToml()">Copy</button>
-        <a id="email-link" class="email-btn" href="#">Email to David</a>
-        <span class="success-msg" id="copy-msg">Copied!</span>
+      <div style="margin-bottom: 1rem;">
+        <p style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">Preferred: download the file and attach it to an email to David</p>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <a id="download-link" class="submit-btn" href="#" download style="display:inline-block; width:auto; text-decoration:none; text-align:center;">&#8615; Download .toml file</a>
+          <a id="email-attach-link" class="email-btn" href="#">Open email to David</a>
+        </div>
+        <p class="hint" style="margin-top: 6px;">Download the file first, then attach it to the email that opens.</p>
+      </div>
+      <div style="border-top: 0.5px solid #eee; padding-top: 1rem;">
+        <p style="font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #888;">Alternative: copy the text and paste it into an email</p>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="copy-btn" onclick="copyToml()">Copy text</button>
+          <a id="email-body-link" href="#" style="font-size: 13px; color: #888;">Email with text in body</a>
+          <span class="success-msg" id="copy-msg">Copied!</span>
+        </div>
       </div>
       <p class="hint" style="margin-top: 1rem;">David will add this to the monitor and let you know when your daily digest is active.</p>
     </div>
@@ -99,7 +110,7 @@
 </div>
 
 <script>
-  const DAVID_EMAIL = "david.reevely@thelogic.co";
+  const DAVID_EMAIL = "dreevely@thelogic.co";
 
   function addRow(name, type) {
     const list = document.getElementById("company-list");
@@ -159,12 +170,28 @@
       toml += `]\n\n`;
     });
 
-    document.getElementById("toml-output").textContent = toml.trim();
+    const trimmed = toml.trim();
+    document.getElementById("toml-output").textContent = trimmed;
 
     const slug = slugify(name);
-    const subject = encodeURIComponent(`Courts monitor signup: ${name}`);
-    const body = encodeURIComponent(`Hi David,\n\nPlease add me to the Ontario Courts Monitor. My configuration file is below — please save it as ${slug}companies.toml.\n\n---\n\n${toml.trim()}\n\n---\n\nThanks,\n${name}`);
-    document.getElementById("email-link").href = `mailto:${DAVID_EMAIL}?subject=${subject}&body=${body}`;
+    const filename = `${slug}companies.toml`;
+
+    // Download link
+    const blob = new Blob([trimmed], { type: "text/plain" });
+    const blobUrl = URL.createObjectURL(blob);
+    const dl = document.getElementById("download-link");
+    dl.href = blobUrl;
+    dl.download = filename;
+
+    // Email for attaching the downloaded file (minimal body)
+    const subjectAttach = encodeURIComponent(`Courts monitor signup: ${name}`);
+    const bodyAttach = encodeURIComponent(`Hi David,\n\nPlease add me to the Ontario Courts Monitor. I've attached my configuration file (${filename}).\n\nThanks,\n${name}`);
+    document.getElementById("email-attach-link").href = `mailto:${DAVID_EMAIL}?subject=${subjectAttach}&body=${bodyAttach}`;
+
+    // Fallback: email with TOML text pasted in body
+    const subjectBody = encodeURIComponent(`Courts monitor signup: ${name}`);
+    const bodyText = encodeURIComponent(`Hi David,\n\nPlease add me to the Ontario Courts Monitor. My configuration is below — save it as ${filename}.\n\n---\n\n${trimmed}\n\n---\n\nThanks,\n${name}`);
+    document.getElementById("email-body-link").href = `mailto:${DAVID_EMAIL}?subject=${subjectBody}&body=${bodyText}`;
 
     const section = document.getElementById("output-section");
     section.classList.add("visible");
