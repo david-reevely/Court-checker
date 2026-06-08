@@ -424,7 +424,7 @@ searches = [
 [[companies]]
 name = "Air Canada"
 searches = [
-  { term = "AIR CANADA", type = "contains" },
+  { term = "AIR CANADA", type = "exact" },
 ]
 
 [[companies]]
@@ -444,14 +444,14 @@ searches = [
 [[companies]]
 name = "Hydro-Québec"
 searches = [
-  { term = "HYDRO-QUEBEC", type = "contains" },
-  { term = "HYDRO QUEBEC", type = "contains" },
+  { term = "HYDRO-QUEBEC", type = "exact" },
+  { term = "HYDRO QUEBEC", type = "exact" },
 ]
 
 [[companies]]
 name = "BC Hydro"
 searches = [
-  { term = "BC HYDRO", type = "contains" },
+  { term = "BC HYDRO", type = "exact" },
 ]
 
 # ── UNIVERSITIES / RESEARCH ───────────────────────────────────────────────────
