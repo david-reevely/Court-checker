@@ -1,4 +1,5 @@
 # Ontario Courts Monitor — Companies Configuration
+# Reporter: David Reevely
 #
 # Each [[companies]] block defines one company to monitor.
 # A company can have multiple searches entries —
@@ -11,6 +12,10 @@
 # Tip: use "exact" whenever the search term is a common word or phrase
 # that might appear inside unrelated party names.
 # Use "contains" for distinctive names unlikely to appear inside other names.
+
+[reporter]
+name = "David Reevely"
+email = "david.reevely@thelogic.co"
 
 # ── TELECOM ───────────────────────────────────────────────────────────────────
 
