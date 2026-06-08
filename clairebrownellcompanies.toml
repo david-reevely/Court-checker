@@ -1,0 +1,25 @@
+# Ontario Courts Monitor — company watchlist
+# Reporter: Claire Brownell
+# Generated: 2026-06-08
+
+[reporter]
+name = "Claire Brownell"
+email = "claire.brownell@thelogic.co"
+
+[[companies]]
+name = "Neo Financial"
+searches = [
+  { term = "Neo Financial", type = "contains" },
+]
+
+[[companies]]
+name = "Wealthsimple"
+searches = [
+  { term = "Wealthsimple", type = "contains" },
+]
+
+[[companies]]
+name = "Koho"
+searches = [
+  { term = "Koho", type = "contains" },
+]
