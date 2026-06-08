@@ -7,7 +7,7 @@
 [email]
 smtp_host = "smtp.gmail.com"
 smtp_port = 587
-smtp_user = "you@gmail.com"       # Gmail address used to send all digests
+smtp_user = "david.reevely@thelogic.co"       # Gmail address used to send all digests
 subject_prefix = "[Courts]"
 
 # Email password is NOT stored here.
