@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ontario Courts Monitor — Sign Up</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.6; color: #1a1a1a; background: #f5f5f3; padding: 2rem 1rem; }
+  .container { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.25rem; }
+  .subtitle { color: #666; font-size: 15px; margin-bottom: 2rem; }
+  .card { background: #fff; border: 0.5px solid #ddd; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  input[type="text"], input[type="email"] { width: 100%; border: 0.5px solid #ccc; border-radius: 8px; padding: 8px 12px; font-size: 15px; font-family: inherit; outline: none; transition: border-color 0.15s; }
+  input[type="text"]:focus, input[type="email"]:focus { border-color: #555; }
+  .field { margin-bottom: 1.25rem; }
+  .field:last-child { margin-bottom: 0; }
+  .hint { font-size: 13px; color: #888; margin-top: 4px; }
+  .company-list { display: flex; flex-direction: column; gap: 10px; }
+  .company-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+  .company-row input { margin: 0; }
+  .search-type { display: flex; gap: 0; border: 0.5px solid #ccc; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .search-type label { margin: 0; font-size: 13px; font-weight: 400; }
+  .search-type input[type="radio"] { display: none; }
+  .search-type .option { padding: 7px 12px; cursor: pointer; color: #555; background: #fff; border: none; white-space: nowrap; font-size: 13px; transition: background 0.1s, color 0.1s; }
+  .search-type input[type="radio"]:checked + .option { background: #1a1a1a; color: #fff; }
+  .remove-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 18px; line-height: 1; padding: 4px 6px; border-radius: 6px; flex-shrink: 0; }
+  .remove-btn:hover { color: #c00; background: #fef0f0; }
+  .add-btn { background: none; border: 0.5px solid #ccc; border-radius: 8px; padding: 7px 14px; font-size: 14px; cursor: pointer; color: #444; font-family: inherit; margin-top: 4px; }
+  .add-btn:hover { background: #f5f5f3; }
+  .section-heading { font-size: 13px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .column-labels { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 4px; }
+  .column-labels span { font-size: 12px; color: #999; }
+  .column-labels span:last-child { width: 156px; text-align: center; }
+  .submit-btn { width: 100%; padding: 11px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-family: inherit; cursor: pointer; margin-top: 0.5rem; }
+  .submit-btn:hover { background: #333; }
+  .output-section { display: none; }
+  .output-section.visible { display: block; }
+  .toml-box { background: #f5f5f3; border: 0.5px solid #ddd; border-radius: 8px; padding: 1rem; font-family: "SF Mono", "Fira Code", monospace; font-size: 13px; white-space: pre-wrap; overflow-x: auto; color: #1a1a1a; margin-bottom: 1rem; }
+  .copy-btn { background: none; border: 0.5px solid #ccc; border-radius: 8px; padding: 7px 14px; font-size: 14px; cursor: pointer; color: #444; font-family: inherit; }
+  .copy-btn:hover { background: #f0f0ee; }
+  .email-btn { display: inline-block; background: #1a1a1a; color: #fff; text-decoration: none; border-radius: 8px; padding: 9px 18px; font-size: 14px; margin-left: 8px; }
+  .email-btn:hover { background: #333; }
+  .success-msg { font-size: 13px; color: #2a7a2a; margin-left: 10px; display: none; }
+  .type-legend { font-size: 13px; color: #777; background: #f9f9f7; border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem; }
+  .type-legend strong { color: #444; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Ontario Courts Monitor</h1>
+  <p class="subtitle">Enter your details and the companies you want to track. This generates a configuration file to send to David.</p>
+
+  <div class="card">
+    <div class="section-heading">Your details</div>
+    <div class="field">
+      <label for="reporter-name">Your name</label>
+      <input type="text" id="reporter-name" placeholder="e.g. Joanna Smith">
+    </div>
+    <div class="field">
+      <label for="reporter-email">Your email address</label>
+      <input type="email" id="reporter-email" placeholder="e.g. jsmith@thelogic.co">
+      <p class="hint">Daily digests will be sent here.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-heading">Companies to monitor</div>
+    <div class="column-labels">
+      <span>Company or institution name</span>
+      <span>Search type</span>
+    </div>
+    <div class="company-list" id="company-list"></div>
+    <button class="add-btn" onclick="addRow()">+ Add another</button>
+
+    <div class="type-legend">
+      <strong>Contains</strong> — finds any party whose name includes your term. Good for distinctive names like <em>Telesat</em> or <em>Shopify</em>.<br>
+      <strong>Exact</strong> — matches only the precise name you enter. Use this for common words like <em>Bell Canada</em> (otherwise you'd get every case mentioning "Bell" or "Canada").
+    </div>
+  </div>
+
+  <button class="submit-btn" onclick="generate()">Generate configuration</button>
+
+  <div class="output-section" id="output-section" style="margin-top: 1.5rem;">
+    <div class="card">
+      <div class="section-heading">Your configuration</div>
+      <div class="toml-box" id="toml-output"></div>
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <button class="copy-btn" onclick="copyToml()">Copy</button>
+        <a id="email-link" class="email-btn" href="#">Email to David</a>
+        <span class="success-msg" id="copy-msg">Copied!</span>
+      </div>
+      <p class="hint" style="margin-top: 1rem;">David will add this to the monitor and let you know when your daily digest is active.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const DAVID_EMAIL = "dreevely@thelogic.co";
+
+  function addRow(name, type) {
+    const list = document.getElementById("company-list");
+    const row = document.createElement("div");
+    row.className = "company-row";
+    const id = "r" + Date.now() + Math.random().toString(36).slice(2);
+    const containsChecked = (!type || type === "contains") ? "checked" : "";
+    const exactChecked = (type === "exact") ? "checked" : "";
+    row.innerHTML = `
+      <input type="text" placeholder="e.g. Telesat" value="${name || ""}">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div class="search-type">
+          <input type="radio" name="${id}" id="${id}c" value="contains" ${containsChecked}>
+          <label for="${id}c" class="option">Contains</label>
+          <input type="radio" name="${id}" id="${id}e" value="exact" ${exactChecked}>
+          <label for="${id}e" class="option">Exact</label>
+        </div>
+        <button class="remove-btn" onclick="this.closest('.company-row').remove()" title="Remove">×</button>
+      </div>
+    `;
+    list.appendChild(row);
+  }
+
+  function slugify(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 30);
+  }
+
+  function generate() {
+    const name = document.getElementById("reporter-name").value.trim();
+    const email = document.getElementById("reporter-email").value.trim();
+
+    if (!name) { alert("Please enter your name."); return; }
+    if (!email || !email.includes("@")) { alert("Please enter a valid email address."); return; }
+
+    const rows = document.querySelectorAll(".company-row");
+    const companies = [];
+    rows.forEach(row => {
+      const term = row.querySelector("input[type='text']").value.trim();
+      const type = row.querySelector("input[type='radio']:checked")?.value || "contains";
+      if (term) companies.push({ term, type });
+    });
+
+    if (companies.length === 0) { alert("Please add at least one company."); return; }
+
+    let toml = `# Ontario Courts Monitor — company watchlist\n`;
+    toml += `# Reporter: ${name}\n`;
+    toml += `# Generated: ${new Date().toISOString().slice(0, 10)}\n\n`;
+    toml += `[reporter]\n`;
+    toml += `name = "${name}"\n`;
+    toml += `email = "${email}"\n\n`;
+
+    companies.forEach(c => {
+      toml += `[[companies]]\n`;
+      toml += `name = "${c.term}"\n`;
+      toml += `searches = [\n`;
+      toml += `  { term = "${c.term}", type = "${c.type}" },\n`;
+      toml += `]\n\n`;
+    });
+
+    document.getElementById("toml-output").textContent = toml.trim();
+
+    const slug = slugify(name);
+    const subject = encodeURIComponent(`Courts monitor signup: ${name}`);
+    const body = encodeURIComponent(`Hi David,\n\nPlease add me to the Ontario Courts Monitor. My configuration file is below — please save it as ${slug}companies.toml.\n\n---\n\n${toml.trim()}\n\n---\n\nThanks,\n${name}`);
+    document.getElementById("email-link").href = `mailto:${DAVID_EMAIL}?subject=${subject}&body=${body}`;
+
+    const section = document.getElementById("output-section");
+    section.classList.add("visible");
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function copyToml() {
+    const text = document.getElementById("toml-output").textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const msg = document.getElementById("copy-msg");
+      msg.style.display = "inline";
+      setTimeout(() => msg.style.display = "none", 2000);
+    });
+  }
+
+  addRow();
+  addRow();
+  addRow();
+</script>
+</body>
+</html>
