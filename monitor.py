@@ -14,6 +14,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
+import html as html_lib
+
 import requests
 import tomllib
 
@@ -166,6 +168,7 @@ def check_companies(companies, court_id, cache, cache_prefix):
             continue
 
         all_cases = {}
+        company_had_errors = False
 
         for search in searches:
             term = search.get("term", "").strip()
@@ -179,6 +182,7 @@ def check_companies(companies, court_id, cache, cache_prefix):
                 rows = search_parties(term, type_code, court_id)
             except Exception as e:
                 errors.append(f"{name} (search '{term}'): {e}")
+                company_had_errors = True
                 continue
 
             for row in rows:
@@ -216,7 +220,15 @@ def check_companies(companies, court_id, cache, cache_prefix):
                 **all_cases[uuid],
             })
 
-        cache[cache_key] = list(all_cases.keys())
+        if company_had_errors:
+            # A search failed, so all_cases may be incomplete. Merge new UUIDs
+            # into the existing cache rather than overwriting it — otherwise
+            # cases missing from this partial run would be re-reported as
+            # "new" on the next successful run.
+            cache[cache_key] = list(known_uuids | set(all_cases.keys()))
+        else:
+            # Full success: overwrite, which also lets closed cases age out.
+            cache[cache_key] = list(all_cases.keys())
 
     return findings, errors
 
@@ -258,6 +270,8 @@ def build_email_body(findings, errors, run_time, reporter_name):
                     url = case_url(c["court_id"], c["case_uuid"])
                     filed = parse_filed_date(c["filed_date"])
                     parties_str = " | ".join(c["parties"])
+                    title_esc = html_lib.escape(c["case_title"])
+                    parties_esc = html_lib.escape(parties_str)
 
                     lines_plain += [
                         f"  Case:    {c['case_number']}",
@@ -270,9 +284,9 @@ def build_email_body(findings, errors, run_time, reporter_name):
                     ]
                     html_parts.append(f"""
                     <div style='margin-bottom:16px; padding:12px; border-left:3px solid #555; background:#f9f9f9'>
-                      <div><strong>{c['case_title']}</strong></div>
+                      <div><strong>{title_esc}</strong></div>
                       <div style='color:#555; font-size:0.9em'>{c['case_number']} &nbsp;·&nbsp; Filed {filed} &nbsp;·&nbsp; {c['court_abbreviation']}</div>
-                      <div style='margin-top:4px; font-size:0.9em'>{parties_str}</div>
+                      <div style='margin-top:4px; font-size:0.9em'>{parties_esc}</div>
                       <div style='margin-top:6px'><a href='{url}'>{url}</a></div>
                     </div>
                     """)
