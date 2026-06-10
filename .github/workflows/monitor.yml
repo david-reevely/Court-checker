@@ -2,8 +2,12 @@ name: Ontario Courts Monitor
 
 on:
   schedule:
-    # Runs at 7:00 AM Eastern (12:00 UTC) on weekdays
-    - cron: "0 12 * * 1-5"
+    # Off-peak minute to reduce GitHub's scheduling delay.
+    # 11:37 UTC = 7:37 AM EDT (summer); 12:37 UTC = 7:37 AM EST (winter).
+    # Both fire year-round; the run-gate step below skips the one that
+    # isn't 7:37 AM in Toronto, so you get exactly one run per weekday.
+    - cron: "37 11 * * 1-5"
+    - cron: "37 12 * * 1-5"
   workflow_dispatch:  # allows manual runs from GitHub Actions tab
 
 jobs:
@@ -11,33 +15,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Gate on Toronto local time (handles EDT/EST)
+        if: github.event_name == 'schedule'
+        run: |
+          hour=$(TZ=America/Toronto date +%H)
+          if [ "$hour" != "07" ]; then
+            echo "Not 7 AM in Toronto (hour=$hour); skipping duplicate trigger."
+            echo "SKIP_RUN=1" >> $GITHUB_ENV
+          fi
+
       - uses: actions/checkout@v4
+        if: env.SKIP_RUN != '1'
 
       - name: Set up Python
+        if: env.SKIP_RUN != '1'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
+        if: env.SKIP_RUN != '1'
         run: pip install -r requirements.txt
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: cache.json
-          key: courts-cache-${{ github.run_id }}
-          restore-keys: |
-            courts-cache-
-
       - name: Run monitor
+        if: env.SKIP_RUN != '1'
         env:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: python monitor.py
 
       - name: Commit updated cache
+        if: env.SKIP_RUN != '1'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add cache.json
           git diff --staged --quiet || git commit -m "Update courts cache [skip ci]"
+          git pull --rebase origin main
           git push
