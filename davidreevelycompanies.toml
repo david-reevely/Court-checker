@@ -28,13 +28,17 @@ searches = [
   { term = "THE BELL TELEPHONE COMPANY OF CANADA", type = "exact" },
   { term = "BELL EXPRESSVU INC.", type = "exact" },
   { term = "BELL TECHNICAL SOLUTIONS INC.", type = "exact" },
-  { term = "BCE", type = "exact" },
+  { term = "BCE INC.", type = "exact" },
+  { term = "BCE INC", type = "exact" },
+  { term = "BCE INCORPORATED", type = "exact" },
 ]
 
 [[companies]]
 name = "Rogers Communications"
 searches = [
-  { term = "ROGERS COMMUNICATIONS CANADA", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS CANADA INC.", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS CANADA INC", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS CANADA LTD", type = "exact" },
   { term = "ROGERS COMMUNICATIONS", type = "contains" },
   { term = "ROGERS MEDIA", type = "contains" },
   { term = "FIDO SOLUTIONS", type = "contains" },
@@ -194,13 +198,13 @@ searches = [
 name = "GE Hitachi"
 searches = [
   { term = "GE HITACHI", type = "contains" },
-  { term = "GEHE NUCLEAR ENERGY CANADA", type = "exact" },
+  { term = "GE HITACHI NUCLEAR ENERGY CANADA INC.", type = "exact" },
 ]
 
 [[companies]]
 name = "AECL"
 searches = [
-  { term = "ATOMIC ENERGY OF CANADA", type = "exact" },
+  { term = "ATOMIC ENERGY OF CANADA LIMITED", type = "exact" },
 ]
 
 [[companies]]
@@ -230,7 +234,8 @@ searches = [
 [[companies]]
 name = "Terrestrial Energy"
 searches = [
-  { term = "TERRESTRIAL ENERGY", type = "exact" },
+  { term = "TERRESTRIAL ENERGY INC.", type = "exact" },
+  { term = "TERRESTRIAL ENERGY INC", type = "exact" },
 ]
 
 # ── SPACE ─────────────────────────────────────────────────────────────────────
@@ -256,7 +261,7 @@ searches = [
 [[companies]]
 name = "Maritime Launch Services"
 searches = [
-  { term = "MARITIME LAUNCH SERVICES", type = "exact" },
+  { term = "MARITIME LAUNCH SERVICES INC.", type = "exact" },
 ]
 
 [[companies]]
@@ -362,7 +367,7 @@ searches = [
 [[companies]]
 name = "Well Health"
 searches = [
-  { term = "WELL HEALTH", type = "exact" },
+  { term = "WELL HEALTH TECHNOLOGIES CORP", type = "exact" },
 ]
 
 [[companies]]
@@ -411,14 +416,14 @@ searches = [
 name = "CN Rail"
 searches = [
   { term = "CANADIAN NATIONAL RAILWAY", type = "exact" },
-  { term = "CN RAILWAY", type = "exact" },
 ]
 
 [[companies]]
 name = "CPKC"
 searches = [
-  { term = "CANADIAN PACIFIC KANSAS CITY", type = "exact" },
-  { term = "CANADIAN PACIFIC RAILWAY", type = "exact" },
+  { term = "CANADIAN PACIFIC KANSAS CITY LIMITED", type = "exact" },
+  { term = "CANADIAN PACIFIC RAILWAY LIMITED", type = "exact" },
+  { term = "CANADIAN PACIFIC RAILWAY COMPANY", type = "exact" },
 ]
 
 [[companies]]
@@ -444,14 +449,14 @@ searches = [
 [[companies]]
 name = "Hydro-Québec"
 searches = [
-  { term = "HYDRO-QUEBEC", type = "exact" },
-  { term = "HYDRO QUEBEC", type = "exact" },
+  { term = "HYDRO-QUEBEC", type = "contains" },
+  { term = "HYDRO QUEBEC", type = "contains" },
 ]
 
 [[companies]]
 name = "BC Hydro"
 searches = [
-  { term = "BC HYDRO", type = "exact" },
+  { term = "BRITISH COLUMBIA HYDRO AND POWER AUTHORITY", type = "exact" },
 ]
 
 # ── UNIVERSITIES / RESEARCH ───────────────────────────────────────────────────
@@ -471,5 +476,5 @@ searches = [
 [[companies]]
 name = "Algonquin College"
 searches = [
-  { term = "ALGONQUIN COLLEGE", type = "exact" },
+  { term = "ALGONQUIN COLLEGE OF APPLIED ARTS AND TECHNOLOGY", type = "exact" },
 ]
