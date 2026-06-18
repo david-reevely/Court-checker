@@ -15,6 +15,8 @@ from email.mime.text import MIMEText
 from pathlib import Path
 
 import html as html_lib
+import re
+import unicodedata
 
 import requests
 import tomllib
@@ -77,6 +79,26 @@ def save_cache(cache):
 
 # ── API ───────────────────────────────────────────────────────────────────────
 
+def _normalize(text):
+    """
+    Fold a party name or search term to a canonical form for phrase matching:
+    strip accents, uppercase, and collapse every run of non-alphanumeric
+    characters to a single space. This makes hyphens, commas, periods and
+    accented characters irrelevant to the comparison.
+
+      "HYDRO-QUÉBEC"  -> "HYDRO QUEBEC"
+      "Hydro Quebec"  -> "HYDRO QUEBEC"
+      "9322-4558 QUEBEC INC." -> "9322 4558 QUEBEC INC"
+    """
+    if not text:
+        return ""
+    # Decompose accents and drop the combining marks.
+    decomposed = unicodedata.normalize("NFKD", text)
+    no_accents = "".join(c for c in decomposed if not unicodedata.combining(c))
+    # Collapse any non-alphanumeric run to a single space, uppercase, trim.
+    return re.sub(r"[^A-Za-z0-9]+", " ", no_accents).upper().strip()
+
+
 def search_parties(search_term, search_type_code, court_id):
     """
     Search for a party name in the Ontario courts index.
@@ -107,17 +129,28 @@ def search_parties(search_term, search_type_code, court_id):
 
         batch = data.get("_embedded", {}).get("results", [])
 
-        # The API treats multi-word contains searches as OR.
-        # Post-filter to require the full phrase in the party name.
-        if search_type_code == SEARCH_TYPES["contains"] and " " in search_term:
-            phrase = search_term.upper()
-            batch = [
-                r for r in batch
-                if phrase in r.get("partyHeader", {})
-                              .get("partyActorInstance", {})
-                              .get("displayName", "")
-                              .upper()
-            ]
+        # The API splits the search term on any non-alphanumeric character
+        # (spaces AND hyphens, etc.) and OR-matches the resulting words. So
+        # "HYDRO-QUEBEC" matches any party containing "HYDRO" *or* "QUEBEC".
+        # For any multi-word term we post-filter to require all the words to
+        # appear together as a contiguous phrase in the party name.
+        #
+        # Matching is done on a normalized form (accents folded, punctuation
+        # collapsed to single spaces) so "HYDRO-QUEBEC", "HYDRO QUEBEC" and
+        # "HYDRO-QUÉBEC" are all treated as the same phrase.
+        if search_type_code == SEARCH_TYPES["contains"]:
+            phrase_norm = _normalize(search_term)
+            # Only filter when the term is genuinely multi-word; a single
+            # token like "TELESAT" needs no phrase check.
+            if " " in phrase_norm:
+                batch = [
+                    r for r in batch
+                    if phrase_norm in _normalize(
+                        r.get("partyHeader", {})
+                         .get("partyActorInstance", {})
+                         .get("displayName", "")
+                    )
+                ]
 
         results.extend(batch)
 
