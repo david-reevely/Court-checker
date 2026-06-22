@@ -253,15 +253,20 @@ def check_companies(companies, court_id, cache, cache_prefix):
                 **all_cases[uuid],
             })
 
-        if company_had_errors:
-            # A search failed, so all_cases may be incomplete. Merge new UUIDs
-            # into the existing cache rather than overwriting it — otherwise
-            # cases missing from this partial run would be re-reported as
-            # "new" on the next successful run.
-            cache[cache_key] = list(known_uuids | set(all_cases.keys()))
-        else:
-            # Full success: overwrite, which also lets closed cases age out.
-            cache[cache_key] = list(all_cases.keys())
+        # The cache is a permanent ledger of every case UUID we have ever
+        # reported for this company — NOT a snapshot of the latest run.
+        #
+        # This matters because high-volume searches return large result sets
+        # that the API paginates inconsistently: a case present one day can be
+        # absent the next and reappear the day after. If we overwrote the cache
+        # with each run's results, every reappearance would be re-reported as
+        # "new", flooding the digest with old lawsuits. By unioning (never
+        # removing), a case is reported exactly once, the first time we see it.
+        #
+        # Trade-off: closed cases are never pruned, so the cache grows slowly.
+        # That is acceptable — it is a few KB per hundred cases, and "have we
+        # reported this before?" is exactly the question the ledger answers.
+        cache[cache_key] = sorted(known_uuids | set(all_cases.keys()))
 
     return findings, errors
 
