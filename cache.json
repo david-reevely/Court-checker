@@ -1676,6 +1676,7 @@
     "3bc8f9d4-ba8b-4034-9359-27591abba224",
     "3ede5b7d-0dbd-47d1-b97e-85ab040c8a22",
     "3f5899ae-b87f-43bc-b5f2-09bb7b7291f1",
+    "40724878-83d2-4bd1-ae0d-4dfe2fd68b2b",
     "4087c2aa-5cff-414b-afa3-3290e6527285",
     "4127ff20-58e5-4c51-a091-acce7cd9f3b7",
     "41aa784b-d14b-49c5-a272-a46dde9e2d98",
@@ -1727,12 +1728,14 @@
     "7f3e1aab-0d83-4679-9333-117a158d8347",
     "81b3ddca-2fb0-4e12-8941-9ec4161e0824",
     "835d24bf-5553-4ffe-9924-fa970cd97d5b",
+    "83d68efa-9661-4961-8610-3b526318158c",
     "8871772b-c989-412f-9af2-d8faff517a6a",
     "8871bfb8-93f6-4d6d-8dc2-872546a12948",
     "8e351f76-facd-44a8-a2f9-f64f7b0315d3",
     "8ed777f0-4e4c-44f0-aa82-0d81aab839ee",
     "8f686211-332e-4064-be29-9e7ae77e500d",
     "9396aa4e-e37b-40bd-bbab-0a7fbb33e68f",
+    "955a236b-b392-4480-8f85-d2b29dedb3ee",
     "96a13058-294a-466e-8342-1c3ddd48d588",
     "9a392703-14f0-4c37-bab0-882b33a9f6ca",
     "a0d68e8d-6028-46f7-9351-b7ab5580dd87",
@@ -1873,7 +1876,8 @@
   "davidreevelycompanies:company:Hydro-Qu\u00e9bec": [],
   "davidreevelycompanies:company:BC Hydro": [],
   "davidreevelycompanies:company:University of Ottawa": [
-    "73dce36b-0326-4c2b-b730-e244756b3e31"
+    "73dce36b-0326-4c2b-b730-e244756b3e31",
+    "dea7d0c5-ce9e-4b05-b237-5eaa21efcb5e"
   ],
   "davidreevelycompanies:company:Carleton University": [
     "02da519d-8117-4769-8028-79218c95823e",
