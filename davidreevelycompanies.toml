@@ -54,9 +54,7 @@ searches = [
   { term = "TELUS COMMUNICATIONS INC", type = "exact" },
   { term = "TELUS CORPORATION", type = "exact" },
   { term = "TELUS HEALTH (CANADA) LTD.", type = "exact" },
-  { term = "TELUS HEALTH (CANADA) LTD", type = "exact" },
   { term = "TELUS RETAIL LTD.", type = "exact" },
-  { term = "TELUS RETAIL LTD", type = "exact" },
 ]
 
 [[companies]]
@@ -348,7 +346,6 @@ name = "GSK"
 searches = [
   { term = "GLAXOSMITHKLINE INC.", type = "exact" },
   { term = "GLAXOSMITHKLINE INC", type = "exact" },
-  { term = "GLAXOSMITHKLINE CONSUMER HEALTHCARE INC.", type = "exact" },
 ]
 
 [[companies]]
@@ -453,7 +450,6 @@ searches = [
   { term = "WESTJET AIRLINES LTD.", type = "exact" },
   { term = "WESTJET AIRLINES LTD", type = "exact" },
   { term = "WESTJET", type = "exact" },
-  { term = "WESTJET ENCORE LTD.", type = "exact" },
 ]
 
 # ── ENERGY ────────────────────────────────────────────────────────────────────
