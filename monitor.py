@@ -201,7 +201,6 @@ def check_companies(companies, court_id, cache, cache_prefix):
             continue
 
         all_cases = {}
-        company_had_errors = False
 
         for search in searches:
             term = search.get("term", "").strip()
@@ -215,7 +214,6 @@ def check_companies(companies, court_id, cache, cache_prefix):
                 rows = search_parties(term, type_code, court_id)
             except Exception as e:
                 errors.append(f"{name} (search '{term}'): {e}")
-                company_had_errors = True
                 continue
 
             for row in rows:
