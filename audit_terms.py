@@ -17,12 +17,30 @@ the term.
 Usage:  python3 audit_terms.py
 """
 
+import re
 import sys
 import time
+import unicodedata
 from pathlib import Path
 
 import requests
 import tomllib
+
+
+def _normalize(text):
+    """
+    Canonicalize a name or term for phrase matching: strip accents, uppercase,
+    collapse every run of non-alphanumeric characters (spaces, hyphens, commas,
+    periods, etc.) to a single space. Mirrors monitor.py exactly so the audit's
+    counts match what the live monitor actually reports.
+
+      "HYDRO-QUEBEC" / "HYDRO-QUÉBEC" / "Hydro Quebec"  -> "HYDRO QUEBEC"
+    """
+    if not text:
+        return ""
+    decomposed = unicodedata.normalize("NFKD", text)
+    no_accents = "".join(c for c in decomposed if not unicodedata.combining(c))
+    return re.sub(r"[^A-Za-z0-9]+", " ", no_accents).upper().strip()
 
 SCRIPT_DIR = Path(__file__).parent
 API_BASE = "https://api1.courts.ontario.ca"
@@ -61,8 +79,14 @@ def count_matches(term, stype, court_id):
     data = fetch_page(term, type_code, court_id)
     total = data.get("page", {}).get("totalElements", 0)
 
-    if stype == "exact" or " " not in term:
-        # No post-filtering applies; sample names from first page
+    # A term is "multi-word" if it normalizes to more than one token. This
+    # catches hyphenated terms like "HYDRO-QUEBEC" that contain no literal
+    # space — exactly the case the monitor's phrase filter applies to.
+    phrase_norm = _normalize(term)
+    is_multiword = " " in phrase_norm
+
+    if stype == "exact" or not is_multiword:
+        # No phrase post-filtering applies; sample names from first page.
         names = []
         for r in data.get("_embedded", {}).get("results", []):
             n = r.get("partyHeader", {}).get("partyActorInstance", {}).get("displayName", "")
@@ -70,8 +94,8 @@ def count_matches(term, stype, court_id):
                 names.append(n)
         return total, total, names[:5]
 
-    # Multi-word contains: count phrase-filtered matches across pages
-    phrase = term.upper()
+    # Multi-word contains: count phrase-filtered matches across pages, using
+    # the SAME normalized matching the monitor uses, so counts agree.
     filtered = 0
     names = []
     page = 0
@@ -80,7 +104,7 @@ def count_matches(term, stype, court_id):
             data = fetch_page(term, type_code, court_id, page=page)
         for r in data.get("_embedded", {}).get("results", []):
             n = r.get("partyHeader", {}).get("partyActorInstance", {}).get("displayName", "")
-            if phrase in n.upper():
+            if phrase_norm in _normalize(n):
                 filtered += 1
                 if n not in names:
                     names.append(n)
@@ -99,7 +123,7 @@ def suggest_for_dead_exact(term, court_id):
         data = fetch_page(term, SEARCH_TYPES["contains"], court_id)
     except Exception:
         return []
-    phrase = term.upper()
+    phrase_norm = _normalize(term)
     names = []
     page = 0
     while True:
@@ -110,7 +134,7 @@ def suggest_for_dead_exact(term, court_id):
                 break
         for r in data.get("_embedded", {}).get("results", []):
             n = r.get("partyHeader", {}).get("partyActorInstance", {}).get("displayName", "")
-            if phrase in n.upper() and n not in names:
+            if phrase_norm in _normalize(n) and n not in names:
                 names.append(n)
         page_info = data.get("page", {})
         if page + 1 >= page_info.get("totalPages", 1):
