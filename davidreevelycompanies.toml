@@ -39,15 +39,24 @@ searches = [
   { term = "ROGERS COMMUNICATIONS CANADA INC.", type = "exact" },
   { term = "ROGERS COMMUNICATIONS CANADA INC", type = "exact" },
   { term = "ROGERS COMMUNICATIONS CANADA LTD", type = "exact" },
-  { term = "ROGERS COMMUNICATIONS", type = "contains" },
-  { term = "ROGERS MEDIA", type = "contains" },
-  { term = "FIDO SOLUTIONS", type = "contains" },
+  { term = "ROGERS COMMUNICATIONS CANADA LTD.", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS INC.", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS INC", type = "exact" },
+  { term = "ROGERS COMMUNICATIONS PARTNERSHIP", type = "exact" },
+  { term = "ROGERS MEDIA INC.", type = "exact" },
+  { term = "FIDO SOLUTIONS INC.", type = "exact" },
 ]
 
 [[companies]]
 name = "Telus"
 searches = [
-  { term = "TELUS", type = "contains" },
+  { term = "TELUS COMMUNICATIONS INC.", type = "exact" },
+  { term = "TELUS COMMUNICATIONS INC", type = "exact" },
+  { term = "TELUS CORPORATION", type = "exact" },
+  { term = "TELUS HEALTH (CANADA) LTD.", type = "exact" },
+  { term = "TELUS HEALTH (CANADA) LTD", type = "exact" },
+  { term = "TELUS RETAIL LTD.", type = "exact" },
+  { term = "TELUS RETAIL LTD", type = "exact" },
 ]
 
 [[companies]]
@@ -337,13 +346,19 @@ searches = [
 [[companies]]
 name = "GSK"
 searches = [
-  { term = "GLAXOSMITHKLINE", type = "contains" },
+  { term = "GLAXOSMITHKLINE INC.", type = "exact" },
+  { term = "GLAXOSMITHKLINE INC", type = "exact" },
+  { term = "GLAXOSMITHKLINE CONSUMER HEALTHCARE INC.", type = "exact" },
 ]
 
 [[companies]]
 name = "Sanofi"
 searches = [
-  { term = "SANOFI", type = "contains" },
+  { term = "SANOFI CONSUMER HEALTH INC.", type = "exact" },
+  { term = "SANOFI CONSUMER HEALTH INC", type = "exact" },
+  { term = "SANOFI PASTEUR LIMITED", type = "exact" },
+  { term = "SANOFI-AVENTIS CANADA INC.", type = "exact" },
+  { term = "SANOFI-AVENTIS CANADA INC", type = "exact" },
 ]
 
 [[companies]]
@@ -435,7 +450,10 @@ searches = [
 [[companies]]
 name = "WestJet"
 searches = [
-  { term = "WESTJET", type = "contains" },
+  { term = "WESTJET AIRLINES LTD.", type = "exact" },
+  { term = "WESTJET AIRLINES LTD", type = "exact" },
+  { term = "WESTJET", type = "exact" },
+  { term = "WESTJET ENCORE LTD.", type = "exact" },
 ]
 
 # ── ENERGY ────────────────────────────────────────────────────────────────────
