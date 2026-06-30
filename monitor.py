@@ -181,6 +181,61 @@ def parse_filed_date(raw):
         return raw
 
 
+# ── Shared master roster (for reporters that opt in) ──────────────────────────
+
+# A reporter's *companies.toml can set, in its [reporter] table:
+#     companies_source = "beat_companies"
+# to draw its company list from the shared master roster instead of local
+# [[companies]] blocks. Files without that key are read exactly as before.
+SHARED_TOML_URL = (
+    "https://raw.githubusercontent.com/"
+    "david-reevely/beat-companies/main/companies.toml"
+)
+
+_shared_courts_cache = None  # memoised (companies_list, error_or_None)
+
+
+def get_shared_courts_companies():
+    """Fetch the shared master roster and project it into this tool's company
+    shape: a list of {"name", "searches": [{"term","type"}]}.
+
+    This mirrors beat_companies.for_tool("courts") exactly, but is kept inline
+    and fetches companies.toml over HTTPS from the public repo at runtime — so
+    this GitHub-Actions tool needs no extra install step or workflow change.
+    Curated [company.courts] search blocks pass through verbatim (preserving
+    exact/contains semantics); companies without one get a synthesised
+    contains-search per match string.
+
+    Returns (companies, error). On any failure companies is [] and error is a
+    short message to surface in the reporter's digest rather than crash."""
+    global _shared_courts_cache
+    if _shared_courts_cache is not None:
+        return _shared_courts_cache
+
+    all_tools = ("contracts", "news_release", "google_news", "courts")
+    try:
+        resp = requests.get(SHARED_TOML_URL, timeout=30)
+        resp.raise_for_status()
+        master = tomllib.loads(resp.text)
+    except Exception as e:
+        _shared_courts_cache = ([], f"shared roster fetch failed: {e}")
+        return _shared_courts_cache
+
+    out = []
+    for c in master.get("company", []):
+        if "courts" not in c.get("tools", all_tools):
+            continue
+        match = c.get("match", [c["name"]])
+        ct = c.get("courts", {})
+        searches = ct.get("searches") or [
+            {"term": m, "type": "contains"} for m in match
+        ]
+        out.append({"name": ct.get("display", c["name"]), "searches": searches})
+
+    _shared_courts_cache = (out, None)
+    return _shared_courts_cache
+
+
 # ── Core logic ────────────────────────────────────────────────────────────────
 
 def check_companies(companies, court_id, cache, cache_prefix):
@@ -392,13 +447,24 @@ def main():
         reporter_info = data.get("reporter", {})
         reporter_name = reporter_info.get("name", path.stem)
         recipient = reporter_info.get("email", "")
-        companies = data.get("companies", [])
+
+        # Company source: a reporter file opts into the shared master roster
+        # with  companies_source = "beat_companies"  in its [reporter] table.
+        # Without that key, behaviour is unchanged: read local [[companies]].
+        shared_err = None
+        if reporter_info.get("companies_source") == "beat_companies":
+            companies, shared_err = get_shared_courts_companies()
+        else:
+            companies = data.get("companies", [])
 
         if not recipient:
             print(f"  SKIP {path.name}: no email address configured")
             continue
 
-        if not companies:
+        # Skip only when there's genuinely nothing to do. A shared-roster fetch
+        # failure is NOT a silent skip — we fall through so the error reaches
+        # the reporter's digest.
+        if not companies and not shared_err:
             print(f"  SKIP {path.name}: no companies configured")
             continue
 
@@ -407,6 +473,8 @@ def main():
 
         print(f"Checking {reporter_name} ({path.name}, {len(companies)} companies)...")
         findings, errors = check_companies(companies, court_id, cache, cache_prefix)
+        if shared_err:
+            errors.insert(0, shared_err)
         total_findings += len(findings)
         total_errors += len(errors)
 
