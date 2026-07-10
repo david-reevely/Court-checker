@@ -428,6 +428,7 @@
     "2f99703f-663d-44e9-8819-10c1cadb4530",
     "323f427a-d17c-4524-ad9e-8fc13c190418",
     "33780892-a247-45d2-a18d-0f53342fc192",
+    "352f04ac-2abf-4062-a406-106aca83e809",
     "367d4f42-a2bf-4dc6-8884-3968adb89487",
     "368ee6e3-dce3-44dd-a0cc-fe583dc2c860",
     "37cb061c-d1cc-4ac1-a6aa-686326aec1eb",
@@ -797,7 +798,8 @@
   "davidreevelycompanies:company:Huawei": [
     "737b4b91-5f66-45d5-9a2c-9e4acb24d6f2",
     "b31174d8-19ea-4ff4-8a53-39654fd7c19b",
-    "ec424e0e-abea-4322-b545-f60a741c80e7"
+    "ec424e0e-abea-4322-b545-f60a741c80e7",
+    "fcfdc063-2894-4bc6-b811-4231e637aa63"
   ],
   "davidreevelycompanies:company:General Dynamics": [],
   "davidreevelycompanies:company:Bombardier": [
@@ -2069,7 +2071,8 @@
     "cd7888ad-682d-4d43-b196-18bfef63ccbf",
     "d8949318-ef9b-4a54-becb-c13de8a5ced1",
     "e1103c70-2b31-4f49-9495-0e3d9a21b66b",
-    "ed512ec9-22f5-4644-a856-6bf7357daf29"
+    "ed512ec9-22f5-4644-a856-6bf7357daf29",
+    "fbefc5cd-3ef0-4885-b18a-93ca38e1bec3"
   ],
   "davidreevelycompanies:company:Mondata": [],
   "davidreevelycompanies:company:Dominion Dynamics": [],
