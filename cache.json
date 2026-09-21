@@ -280,6 +280,7 @@
     "b0229020-c470-4fcd-83cf-09df26966a9d",
     "b0454961-61eb-40d8-b4bd-98dc6bef908a",
     "b05b9999-db60-4291-bdb2-3c22e061696e",
+    "b0d89695-e48b-4cf8-9ba3-5a4341d41bb5",
     "b1add3b9-9594-425b-93a6-0b64e1161a9e",
     "b1ae4210-cdde-412d-941f-e02548a7a798",
     "b23249ae-300f-42de-8a00-1db64269b100",
@@ -1060,7 +1061,9 @@
   "davidreevelycompanies:company:AECL": [
     "f58d9249-5517-4f8a-9cb9-620f3fce28da"
   ],
-  "davidreevelycompanies:company:BWXT": [],
+  "davidreevelycompanies:company:BWXT": [
+    "1d05487f-095c-4719-acc3-b22097a3c45b"
+  ],
   "davidreevelycompanies:company:General Fusion": [],
   "davidreevelycompanies:company:Ontario Power Generation": [
     "1bb9800f-0a31-45c4-b16d-3b6439511364",
@@ -1734,6 +1737,7 @@
     "2416f15d-5f1f-4522-9757-959b2e2070a4",
     "24b441e7-bbce-4863-b52b-9f5cc783706d",
     "251f7ed4-196d-44d1-856a-674be869827f",
+    "26dc2d4b-9f41-48e2-87db-bc7fbfb6849a",
     "27d9ed79-9424-472c-99a1-eaf36ba0b7d8",
     "29c4c638-42df-456f-87c8-faaa7533dd92",
     "29ef1684-19f0-425f-8ad0-50831572e364",
@@ -1902,6 +1906,7 @@
     "fa290c48-dcf8-4cd3-9580-331146c723f6",
     "fb816f38-e479-4911-9ca0-0f4a98785b81",
     "fb9c32d4-298c-47ac-8c19-5b7e984a116d",
+    "fcb9abcd-decc-46d5-8d48-47f3ae0a08e2",
     "fdc3082c-f025-4e00-adce-d7cd0a180cef",
     "fed99edc-714e-4bfd-ac1c-7e4bb2a77227",
     "ff7069e3-e27b-4a30-8c62-ff06af61816f",
@@ -2258,6 +2263,7 @@
     "79c79ed8-1582-4674-8849-afd6de52718a",
     "79f717c8-153d-4e6e-ad1b-104a94b1932e",
     "7bf3b43d-70fe-4326-bf9f-f7f7a851c725",
+    "7cef585f-7aa6-4b85-9ef5-a88687bc248a",
     "7e240a68-6b4c-46a8-beeb-a65fbec144be",
     "82de261d-2bd6-4baa-95fd-3392e5f93c69",
     "836576e9-1f2f-4867-a54f-ecaa9e49fc13",
