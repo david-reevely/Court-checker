@@ -14,6 +14,7 @@
     "0444e56b-9217-4613-93b4-0ba8e828a5be",
     "05360f8e-bef8-48ae-b271-779508bf298c",
     "05dfe1d9-9061-41f1-9fd2-0c978cb9e1af",
+    "074c9569-f439-4f4a-be68-46f183fdb444",
     "09806060-2667-4951-b218-7693027aa972",
     "0a56f254-9e41-4c9d-a777-059fb602578c",
     "0aca49a3-10b4-41bf-ad6a-8b475aad159e",
@@ -1102,6 +1103,7 @@
     "68f61ee8-6f2c-4f3c-95c1-db18e84a1a98",
     "864fb15f-7937-4205-80dc-e397c6056d63",
     "8d2bf563-bd95-45f9-acd8-4ab86657e97a",
+    "a4b5959a-d7c5-45d0-ba6c-842afc7dacb6",
     "b776b96e-e431-4d99-9bad-7db773850421"
   ],
   "davidreevelycompanies:company:Maritime Launch Services": [
@@ -1970,6 +1972,7 @@
     "75fe0f78-ef56-4457-8c65-4a94e198ddb2",
     "790bceb6-539d-4254-ba9d-e56418340ca7",
     "7a287751-c14b-4759-8e31-f76a295a935b",
+    "85c2ef46-7ad4-4eef-b664-eed626d44974",
     "88da46f7-0eb3-4826-b5d9-88d8b998507d",
     "896273c3-1eaf-443d-adca-858d2d8f888c",
     "8ab57ee2-cb0a-44f8-bf42-6bee17c0da4a",
@@ -2117,6 +2120,7 @@
     "6b6aef33-e320-48fc-842b-98ed86ccb562",
     "726071ba-e5e1-4b64-b727-f7e66ffda68c",
     "767b0ca4-c454-480a-abd0-d0f61d29812c",
+    "77915aa3-c9d7-4c8c-8a71-e30ca44e4853",
     "7c75cfc3-c416-4623-8bcc-f9fef5363c14",
     "7cb70bbc-5d03-4168-a421-61beb2b59a67",
     "80101fac-3a92-433d-9fb8-5a43df4b3c34",
@@ -2192,6 +2196,7 @@
     "fd30b0f1-d433-498d-939d-3c66bfc32411"
   ],
   "davidreevelycompanies:company:Microsoft Canada": [
+    "0fad503a-2b21-4925-a151-f70433e57c06",
     "2a6d5d29-420b-451a-9fac-b0a8e5ac2392",
     "3db7f561-7291-4298-ad66-ce44f6322ad4",
     "45429ac1-c3d0-46bd-8ad1-a5dd30d9ed17",
@@ -2357,5 +2362,11 @@
   "davidreevelycompanies:company:Stellarex": [],
   "davidreevelycompanies:company:Greypoint Industries": [],
   "davidreevelycompanies:company:Zero Point Cryogenics": [],
-  "davidreevelycompanies:company:Samdesk": []
+  "davidreevelycompanies:company:Samdesk": [],
+  "davidreevelycompanies:company:Wuxly": [],
+  "davidreevelycompanies:company:Sterling Energetics": [],
+  "davidreevelycompanies:company:Galaxia Mission Systems": [],
+  "davidreevelycompanies:company:Sentinel R&D": [],
+  "davidreevelycompanies:company:Convergence Design": [],
+  "davidreevelycompanies:company:Reaction Dynamics": []
 }
