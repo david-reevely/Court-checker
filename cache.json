@@ -982,6 +982,7 @@
     "f80e44f0-b91f-49ae-ae61-b3849a3421d7"
   ],
   "davidreevelycompanies:company:Kraken Robotics": [
+    "0b758e28-13eb-4435-a799-701e5af61c64",
     "2da8f624-9265-45bd-aa18-90128a700266",
     "f4a68bb6-6b99-4c40-a31b-01f936f00b85"
   ],
@@ -2431,5 +2432,384 @@
   "davidreevelycompanies:company:Galaxia Mission Systems": [],
   "davidreevelycompanies:company:Sentinel R&D": [],
   "davidreevelycompanies:company:Convergence Design": [],
-  "davidreevelycompanies:company:Reaction Dynamics": []
+  "davidreevelycompanies:company:Reaction Dynamics": [],
+  "davidreevelycompanies:terms:Kyndryl": [
+    "contains|KYNDRYL"
+  ],
+  "davidreevelycompanies:terms:Plurilock": [
+    "contains|PLURILOCK"
+  ],
+  "davidreevelycompanies:terms:Field Effect": [
+    "contains|FIELD EFFECT SOFTWARE"
+  ],
+  "davidreevelycompanies:terms:IBM Canada": [
+    "exact|IBM CANADA LIMITED",
+    "exact|IBM CANADA LTD"
+  ],
+  "davidreevelycompanies:terms:Microsoft Canada": [
+    "exact|MICROSOFT CANADA CO",
+    "exact|MICROSOFT CANADA INC"
+  ],
+  "davidreevelycompanies:terms:Mondata": [
+    "contains|MONDATA"
+  ],
+  "davidreevelycompanies:terms:General Dynamics": [
+    "contains|GENERAL DYNAMICS"
+  ],
+  "davidreevelycompanies:terms:Bombardier": [
+    "contains|BOMBARDIER"
+  ],
+  "davidreevelycompanies:terms:Volatus Aerospace": [
+    "contains|VOLATUS"
+  ],
+  "davidreevelycompanies:terms:Kraken Robotics": [
+    "contains|KRAKEN"
+  ],
+  "davidreevelycompanies:terms:Seaspan": [
+    "contains|SEASPAN"
+  ],
+  "davidreevelycompanies:terms:Irving Shipbuilding": [
+    "contains|IRVING SHIPBUILDING"
+  ],
+  "davidreevelycompanies:terms:Davie Shipbuilding": [
+    "contains|DAVIE"
+  ],
+  "davidreevelycompanies:terms:Dominion Dynamics": [
+    "exact|DOMINION DYNAMICS INC"
+  ],
+  "davidreevelycompanies:terms:Juno": [
+    "contains|JUNO DEFENCE"
+  ],
+  "davidreevelycompanies:terms:One9": [
+    "contains|ONE9"
+  ],
+  "davidreevelycompanies:terms:Lockheed Martin": [
+    "contains|LOCKHEED MARTIN"
+  ],
+  "davidreevelycompanies:terms:Saab": [
+    "contains|SAAB"
+  ],
+  "davidreevelycompanies:terms:TKMS": [
+    "contains|TKMS"
+  ],
+  "davidreevelycompanies:terms:Hanwha Ocean": [
+    "contains|HANWHA"
+  ],
+  "davidreevelycompanies:terms:Calian": [
+    "contains|CALIAN"
+  ],
+  "davidreevelycompanies:terms:CAE / SkyAlyne": [
+    "contains|SKYALYNE",
+    "exact|CAE INC"
+  ],
+  "davidreevelycompanies:terms:BAE Systems Canada": [
+    "contains|BAE"
+  ],
+  "davidreevelycompanies:terms:Magellan Aerospace": [
+    "contains|MAGELLAN AEROSPACE"
+  ],
+  "davidreevelycompanies:terms:5N Plus": [
+    "contains|5N PLUS"
+  ],
+  "davidreevelycompanies:terms:Top Aces": [
+    "contains|TOP ACES"
+  ],
+  "davidreevelycompanies:terms:Landing Zones Canada": [
+    "exact|LANDING ZONES CANADA INC"
+  ],
+  "davidreevelycompanies:terms:Canadian Strategic Missions": [
+    "exact|CANADIAN STRATEGIC MISSIONS CORPORATION"
+  ],
+  "davidreevelycompanies:terms:Marshall Land Systems": [
+    "exact|MARSHALL LAND SYSTEMS LIMITED"
+  ],
+  "davidreevelycompanies:terms:Shearwater Aerospace": [
+    "contains|SHEARWATER"
+  ],
+  "davidreevelycompanies:terms:AtkinsR\u00e9alis": [
+    "contains|ATKINSREALIS",
+    "contains|SNC LAVALIN"
+  ],
+  "davidreevelycompanies:terms:Westinghouse": [
+    "contains|WESTINGHOUSE"
+  ],
+  "davidreevelycompanies:terms:GE Hitachi": [
+    "contains|GE HITACHI",
+    "exact|GE HITACHI NUCLEAR ENERGY CANADA INC"
+  ],
+  "davidreevelycompanies:terms:AECL": [
+    "exact|ATOMIC ENERGY OF CANADA LIMITED"
+  ],
+  "davidreevelycompanies:terms:BWXT": [
+    "contains|BWXT"
+  ],
+  "davidreevelycompanies:terms:General Fusion": [
+    "contains|GENERAL FUSION"
+  ],
+  "davidreevelycompanies:terms:Ontario Power Generation": [
+    "exact|ONTARIO POWER GENERATION"
+  ],
+  "davidreevelycompanies:terms:Moltex Energy": [
+    "contains|MOLTEX"
+  ],
+  "davidreevelycompanies:terms:Terrestrial Energy": [
+    "exact|TERRESTRIAL ENERGY INC"
+  ],
+  "davidreevelycompanies:terms:Moderna": [
+    "contains|MODERNA"
+  ],
+  "davidreevelycompanies:terms:Pfizer": [
+    "contains|PFIZER"
+  ],
+  "davidreevelycompanies:terms:AbCellera": [
+    "contains|ABCELLERA"
+  ],
+  "davidreevelycompanies:terms:GSK": [
+    "exact|GLAXOSMITHKLINE INC"
+  ],
+  "davidreevelycompanies:terms:Sanofi": [
+    "exact|SANOFI AVENTIS CANADA INC",
+    "exact|SANOFI CONSUMER HEALTH INC",
+    "exact|SANOFI PASTEUR LIMITED"
+  ],
+  "davidreevelycompanies:terms:Zymeworks": [
+    "contains|ZYMEWORKS"
+  ],
+  "davidreevelycompanies:terms:Insilico Medicine": [
+    "contains|INSILICO"
+  ],
+  "davidreevelycompanies:terms:Aramis Biotechnologies": [
+    "contains|ARAMIS BIOTECHNOLOGIES"
+  ],
+  "davidreevelycompanies:terms:Aspartes": [
+    "contains|ASPARTES"
+  ],
+  "davidreevelycompanies:terms:Vena Medical": [
+    "contains|VENA MEDICAL"
+  ],
+  "davidreevelycompanies:terms:Well Health": [
+    "exact|WELL HEALTH TECHNOLOGIES CORP"
+  ],
+  "davidreevelycompanies:terms:CloudMD": [
+    "contains|CLOUDMD"
+  ],
+  "davidreevelycompanies:terms:Maple (telemedicine)": [
+    "exact|MAPLE CORPORATION"
+  ],
+  "davidreevelycompanies:terms:Teladoc": [
+    "contains|TELADOC"
+  ],
+  "davidreevelycompanies:terms:Shoppers Drug Mart": [
+    "exact|SHOPPERS DRUG MART INC"
+  ],
+  "davidreevelycompanies:terms:Bell Canada": [
+    "exact|BCE INC",
+    "exact|BCE INCORPORATED",
+    "exact|BELL CANADA",
+    "exact|BELL EXPRESSVU INC",
+    "exact|BELL MEDIA INC",
+    "exact|BELL MOBILITY INC",
+    "exact|BELL TECHNICAL SOLUTIONS INC",
+    "exact|THE BELL TELEPHONE COMPANY OF CANADA"
+  ],
+  "davidreevelycompanies:terms:Rogers Communications": [
+    "exact|FIDO SOLUTIONS INC",
+    "exact|ROGERS COMMUNICATIONS CANADA INC",
+    "exact|ROGERS COMMUNICATIONS CANADA LTD",
+    "exact|ROGERS COMMUNICATIONS INC",
+    "exact|ROGERS COMMUNICATIONS PARTNERSHIP",
+    "exact|ROGERS MEDIA INC"
+  ],
+  "davidreevelycompanies:terms:Telus": [
+    "exact|TELUS COMMUNICATIONS INC",
+    "exact|TELUS CORPORATION",
+    "exact|TELUS HEALTH CANADA LTD",
+    "exact|TELUS RETAIL LTD"
+  ],
+  "davidreevelycompanies:terms:Videotron": [
+    "contains|VIDEOTRON"
+  ],
+  "davidreevelycompanies:terms:Iristel": [
+    "contains|IRISTEL"
+  ],
+  "davidreevelycompanies:terms:Cogeco": [
+    "contains|COGECO"
+  ],
+  "davidreevelycompanies:terms:Ericsson": [
+    "contains|ERICSSON"
+  ],
+  "davidreevelycompanies:terms:Nokia": [
+    "contains|NOKIA"
+  ],
+  "davidreevelycompanies:terms:Huawei": [
+    "contains|HUAWEI"
+  ],
+  "davidreevelycompanies:terms:MDA Space": [
+    "contains|MDA"
+  ],
+  "davidreevelycompanies:terms:Canadensys": [
+    "contains|CANADENSYS"
+  ],
+  "davidreevelycompanies:terms:Kepler Communications": [
+    "contains|KEPLER"
+  ],
+  "davidreevelycompanies:terms:Mission Control": [
+    "exact|MISSION CONTROL SPACE SERVICES INC"
+  ],
+  "davidreevelycompanies:terms:Maritime Launch": [
+    "exact|MARITIME LAUNCH SERVICES INC"
+  ],
+  "davidreevelycompanies:terms:NordSpace": [
+    "contains|NORDSPACE"
+  ],
+  "davidreevelycompanies:terms:Canada Rocket": [
+    "exact|CANADA ROCKET CO",
+    "exact|CANADA ROCKET COMPANY"
+  ],
+  "davidreevelycompanies:terms:Telesat": [
+    "contains|TELESAT"
+  ],
+  "davidreevelycompanies:terms:GHGSat": [
+    "contains|GHGSAT"
+  ],
+  "davidreevelycompanies:terms:EarthDaily": [
+    "contains|EARTHDAILY"
+  ],
+  "davidreevelycompanies:terms:Nord Quantique": [
+    "contains|NORD QUANTIQUE"
+  ],
+  "davidreevelycompanies:terms:Photonic Inc": [
+    "contains|PHOTONIC"
+  ],
+  "davidreevelycompanies:terms:Xanadu Quantum": [
+    "contains|XANADU"
+  ],
+  "davidreevelycompanies:terms:Via Rail / VIA HFR": [
+    "contains|ALTO",
+    "contains|VIA HFR",
+    "contains|VIA RAIL"
+  ],
+  "davidreevelycompanies:terms:CN Rail": [
+    "exact|CANADIAN NATIONAL RAILWAY"
+  ],
+  "davidreevelycompanies:terms:CPKC": [
+    "exact|CANADIAN PACIFIC KANSAS CITY LIMITED",
+    "exact|CANADIAN PACIFIC RAILWAY COMPANY",
+    "exact|CANADIAN PACIFIC RAILWAY LIMITED"
+  ],
+  "davidreevelycompanies:terms:Air Canada": [
+    "exact|AIR CANADA"
+  ],
+  "davidreevelycompanies:terms:WestJet": [
+    "exact|WESTJET",
+    "exact|WESTJET AIRLINES LTD"
+  ],
+  "davidreevelycompanies:terms:Hydro One": [
+    "exact|HYDRO ONE"
+  ],
+  "davidreevelycompanies:terms:Hydro-Qu\u00e9bec": [
+    "contains|HYDRO QUEBEC"
+  ],
+  "davidreevelycompanies:terms:BC Hydro": [
+    "exact|BRITISH COLUMBIA HYDRO AND POWER AUTHORITY"
+  ],
+  "davidreevelycompanies:terms:Nukik": [
+    "contains|NUKIK"
+  ],
+  "davidreevelycompanies:terms:Grengine": [
+    "contains|GRENGINE"
+  ],
+  "davidreevelycompanies:terms:Stellarex": [
+    "contains|STELLAREX"
+  ],
+  "davidreevelycompanies:terms:Canadian Space Agency": [
+    "exact|CANADIAN SPACE AGENCY"
+  ],
+  "davidreevelycompanies:terms:University of Ottawa": [
+    "exact|UNIVERSITY OF OTTAWA"
+  ],
+  "davidreevelycompanies:terms:Carleton University": [
+    "exact|CARLETON UNIVERSITY"
+  ],
+  "davidreevelycompanies:terms:Algonquin College": [
+    "exact|ALGONQUIN COLLEGE OF APPLIED ARTS AND TECHNOLOGY"
+  ],
+  "davidreevelycompanies:terms:Greypoint Industries": [
+    "contains|GREYPOINT"
+  ],
+  "davidreevelycompanies:terms:Zero Point Cryogenics": [
+    "exact|ZERO POINT CRYOGENICS INC"
+  ],
+  "davidreevelycompanies:terms:Samdesk": [
+    "contains|SAMDESK"
+  ],
+  "davidreevelycompanies:terms:Wuxly": [
+    "contains|WUXLY"
+  ],
+  "davidreevelycompanies:terms:Sterling Energetics": [
+    "exact|STERLING ENERGETICS INC"
+  ],
+  "davidreevelycompanies:terms:Galaxia Mission Systems": [
+    "contains|GALAXIA"
+  ],
+  "davidreevelycompanies:terms:Sentinel R&D": [
+    "contains|SENTINEL R D"
+  ],
+  "davidreevelycompanies:terms:Convergence Design": [
+    "contains|CONVERGENCE DESIGN",
+    "exact|CONVERGENCE DESIGN SERVICES"
+  ],
+  "davidreevelycompanies:terms:Reaction Dynamics": [
+    "contains|REACTION DYNAMICS"
+  ],
+  "sheet:claire.brownell@thelogic.co:company:Neo Financial": [
+    "02681d00-b26e-4871-a5e0-e499faba7333",
+    "07e63d90-1b36-410e-9248-5b8916ac1680",
+    "09767c21-3cdd-4e94-80ee-d525b2ab9803",
+    "1948ff2b-6e77-46c7-81dc-c10e20afd7d4",
+    "1a91f573-0a0c-419b-8008-021fcfea1f06",
+    "249ea07c-c979-42b5-9ec3-044d6eaf04aa",
+    "35e33e88-b226-4957-b5e9-92c487b25ee4",
+    "3d266eb4-10df-451b-bb3a-5fe643b08089",
+    "6813ca39-5d71-43f6-8f20-a46618fdb717",
+    "ade9ad7c-1547-40cc-9d09-5a0e9b5ebd90",
+    "b47989d3-84a9-423f-88ab-0a3473d27fef",
+    "d1b3cea3-8740-45df-a89d-82a8d73f1ac0",
+    "dff5397a-04a7-498b-8eb6-b276a1903691",
+    "ea5f3396-b060-47a5-8fe2-4c1687ea8262",
+    "fc31b30a-2664-43a2-998f-d3d929351219"
+  ],
+  "sheet:claire.brownell@thelogic.co:company:Wealthsimple": [
+    "084e5d8a-e4fe-4adb-8668-84676a3fe0d2",
+    "105c8e99-4d21-46be-bcdf-a22aae4a3482",
+    "26c8fc9d-f0f3-4481-8182-231b06e1b9e0",
+    "29eca50f-aacd-4db7-b556-3d7338c06f50",
+    "44cc22a9-fbc5-4a28-8b98-5181af3c896a",
+    "45dc9517-c03c-4141-9d9f-3d7f65d220df",
+    "4cbad1d2-4e86-44bf-9e58-15d21888d914",
+    "50d815d8-c1b9-4103-8cc7-73eab6e6f77d",
+    "912acfc0-ae80-419c-b1bd-0bce14fc44d5",
+    "9a8ef2de-824f-4cce-bc30-962a683be2c1",
+    "db6b5417-4809-4831-a137-965eb7a46228",
+    "ff895c21-c12d-4503-a551-e1cc140412dc"
+  ],
+  "sheet:claire.brownell@thelogic.co:company:Koho": [
+    "1124d942-a609-40eb-bfbf-022a712cec1b",
+    "22faec0b-2c33-4b98-a78b-228c3924af7a",
+    "326f062c-3aae-4542-bd14-3e33fe22dd37",
+    "90e2d2c8-baff-4fbc-a68a-4dda50c3109f",
+    "98e2c11e-bcce-4b80-a85b-1ed04cfd75ff",
+    "c572be91-2a3c-415a-b3c1-cebb07593da1",
+    "cb5b551a-1e65-4ec0-94e2-cb817806b261",
+    "d797398b-3d30-4653-a1da-30d4b33ca881"
+  ],
+  "sheet:claire.brownell@thelogic.co:terms:Neo Financial": [
+    "contains|NEO FINANCIAL"
+  ],
+  "sheet:claire.brownell@thelogic.co:terms:Wealthsimple": [
+    "contains|WEALTHSIMPLE"
+  ],
+  "sheet:claire.brownell@thelogic.co:terms:Koho": [
+    "contains|KOHO"
+  ]
 }
