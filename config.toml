@@ -17,3 +17,21 @@ subject_prefix = "[Courts]"
 [settings]
 # Toronto — Superior Court of Justice, Civil and Small Claims Court
 court_id = "68f021c4-6a44-4735-9a76-5360b2e8af13"
+
+[watchlist_sheet]
+# Reporters who manage their own list on the watchlist web page (Apps Script,
+# thelogic.co sign-in). The export URL and token are NOT stored here: they come
+# from the GitHub secrets COURTS_EXPORT_URL and COURTS_EXPORT_TOKEN.
+#
+# The watchlist page's address, shown as a "change what you're watching" link
+# at the bottom of self-serve reporters' emails. Paste the page's /exec URL.
+page_url = ""
+# Who is told if the watchlists can't be fetched on a given morning.
+admin_email = "david.reevely@thelogic.co"
+
+# One-time moves from a *companies.toml file to the page, written as
+#   "<their email on the page>" = "<old file name without .toml>"
+# Their already-reported cases are carried over so nothing is re-sent.
+# Safe to leave in place; it does nothing after the first run.
+[watchlist_sheet.migrate_cache]
+"claire.brownell@thelogic.co" = "clairebrownellcompanies"

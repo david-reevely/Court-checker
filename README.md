@@ -11,10 +11,19 @@ No account or authentication required.
 
 ## How reporters are configured
 
-Each reporter has their own `*companies.toml` file (e.g.
-`davidreevelycompanies.toml`, `clairebrownellcompanies.toml`). The monitor
-finds every file matching `*companies.toml`, runs each reporter's searches,
-and sends that reporter their own separate digest.
+Reporters come from two places, and each gets their own separate digest:
+
+- **The watchlist page** (the normal way for colleagues). Reporters sign in
+  with their thelogic.co Google account, add companies and search terms, test
+  them live, choose whether new companies start quietly or with a full list of
+  open cases, and can pause their email. Their lists live in a Google Sheet that
+  the monitor reads each morning through a token-protected export. Code is in
+  `apps-script/`; setup steps are in `WATCHLIST_PAGE_SETUP.md`.
+- **`*companies.toml` files** in this repo. David's file draws its list from
+  the shared `beat-companies` roster (`companies_source = "beat_companies"`).
+  If someone is on the watchlist page and also has a file under the same email
+  address, the page wins and the file is ignored, unless the page's export
+  can't be read that day, in which case the file is used as a fallback.
 
 A reporter file has a `[reporter]` block with the recipient's name and email,
 followed by one `[[companies]]` block per company:
@@ -38,9 +47,9 @@ searches = [
 ]
 ```
 
-New reporters can generate their file with the web form in `signup.html`
-(hosted via GitHub Pages) and email it to the maintainer, who commits it
-to the repo.
+A file reporter can add `new_company_mode = "baseline"` to `[reporter]` so
+that newly added companies start quietly (the default for files is `"full"`,
+which reports every open case the first time).
 
 ### Search types
 

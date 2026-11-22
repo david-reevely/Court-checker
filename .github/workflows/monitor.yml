@@ -27,6 +27,8 @@ jobs:
       - name: Run monitor
         env:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          COURTS_EXPORT_URL: ${{ secrets.COURTS_EXPORT_URL }}
+          COURTS_EXPORT_TOKEN: ${{ secrets.COURTS_EXPORT_TOKEN }}
         run: python monitor.py
 
       - name: Commit updated cache

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.6; color: #1a1a1a; background: #f5f5f3; padding: 2rem 1rem 4rem; }
+  .container { max-width: 680px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.25rem; }
+  .subtitle { color: #666; font-size: 15px; margin-bottom: 1rem; }
+  .whoami { font-size: 13px; color: #888; margin: 0.5rem 0 1.5rem; }
+  .card { background: #fff; border: 0.5px solid #ddd; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .section-heading { font-size: 13px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .section-heading .count { text-transform: none; letter-spacing: 0; font-weight: 400; }
+  label.field-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  input[type="text"] { width: 100%; border: 0.5px solid #ccc; border-radius: 8px; padding: 8px 12px; font-size: 15px; font-family: inherit; outline: none; transition: border-color 0.15s; background: #fff; color: inherit; }
+  input[type="text"]:focus { border-color: #555; }
+  .field { margin-bottom: 1.25rem; }
+  .hint { font-size: 13px; color: #888; margin-top: 4px; }
+  .choice { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; margin-bottom: 8px; cursor: pointer; }
+  .choice input { margin-top: 5px; flex-shrink: 0; }
+  .choice small { display: block; color: #888; font-size: 13px; }
+
+  .btn { background: none; border: 0.5px solid #ccc; border-radius: 8px; padding: 7px 14px; font-size: 14px; cursor: pointer; color: #444; font-family: inherit; }
+  .btn:hover { background: #f5f5f3; }
+  .btn-primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .btn-primary:hover { background: #333; }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .btn-link { background: none; border: none; color: #888; font-size: 13px; cursor: pointer; padding: 2px 4px; font-family: inherit; }
+  .btn-link:hover { color: #c00; }
+  .remove-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 18px; line-height: 1; padding: 4px 6px; border-radius: 6px; flex-shrink: 0; }
+  .remove-btn:hover { color: #c00; background: #fef0f0; }
+
+  .company { border-top: 0.5px solid #eee; padding: 12px 0; }
+  .company:first-child { border-top: none; padding-top: 0; }
+  .company-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .company-name { font-weight: 500; }
+  .term { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-top: 4px; }
+  .term-text { font-family: "SF Mono", "Fira Code", monospace; font-size: 13px; word-break: break-word; }
+  .badge { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 4px; padding: 1px 6px; flex-shrink: 0; }
+  .badge.contains { background: #eef3fb; color: #2a5599; }
+  .badge.exact { background: #f3eefb; color: #5a3a99; }
+  .empty { color: #888; font-size: 14px; }
+
+  .term-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; align-items: center; margin-top: 8px; }
+  .search-type { display: flex; border: 0.5px solid #ccc; border-radius: 8px; overflow: hidden; }
+  .search-type button { padding: 7px 12px; cursor: pointer; color: #555; background: #fff; border: none; font-size: 13px; font-family: inherit; }
+  .search-type button.on { background: #1a1a1a; color: #fff; }
+  .test-result { grid-column: 1 / -1; font-size: 13px; color: #555; background: #f9f9f7; border-radius: 8px; padding: 8px 10px; display: none; }
+  .test-result.show { display: block; }
+  .test-result .warn { color: #8a5a00; margin-top: 4px; }
+  .test-result ul { margin: 4px 0 0 18px; }
+
+  .type-legend { font-size: 13px; color: #777; background: #f9f9f7; border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem; }
+  .type-legend strong { color: #444; }
+  .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 1rem; }
+
+  .notice { border-radius: 8px; padding: 10px 14px; font-size: 14px; margin-bottom: 1.5rem; display: none; }
+  .notice.show { display: block; }
+  .notice.ok { background: #eef7ee; color: #1f5f1f; }
+  .notice.err { background: #fdf0ef; color: #8a1f1a; }
+  .loading { color: #888; font-size: 14px; }
+
+  @media (max-width: 520px) {
+    .term-row { grid-template-columns: 1fr auto; }
+    .term-row .test-btn { grid-column: 1; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Ontario Courts Monitor</h1>
+  <p class="subtitle">This tool runs a daily search of new civil court case filings in Toronto. The Ontario government is making its court records more available online; it has started with Toronto cases, which covers a lot of useful ground. The tool searches only civil filings in Toronto, and only reports on NEW CASES, not new filings in existing cases. Particular filings, such as statements of claim, are not available online (though the website has features that make it look as though they eventually might be). You'll have to request them by either going to the courthouse or by phoning or emailing the clerk.</p>
+  <p class="subtitle">Add the companies and institutions you want to track below. Changes save straight away and take effect on the next morning's run. You'll get one email each weekday morning: new cases if there are any, otherwise a short "nothing new" note. Questions or problems: ask David.</p>
+  <p class="whoami" id="whoami"></p>
+
+  <div class="notice" id="notice" role="status"></div>
+
+  <div id="app"><p class="loading">Loading your watchlist…</p></div>
+</div>
+
+<script>
+  let state = null;
+  let busy = false;
+
+  // ── Server calls ─────────────────────────────────────────────────────────
+  function call(fn, args, onDone) {
+    setBusy(true);
+    const runner = google.script.run
+      .withSuccessHandler(function (result) { setBusy(false); onDone && onDone(result); })
+      .withFailureHandler(function (err) { setBusy(false); notify(cleanErr(err), 'err'); });
+    runner[fn].apply(runner, args || []);
+  }
+
+  function cleanErr(err) {
+    const msg = (err && err.message) ? err.message : String(err);
+    return msg.replace(/^Exception:\s*/, '');
+  }
+
+  function setBusy(b) {
+    busy = b;
+    document.querySelectorAll('button[data-busy]').forEach(function (el) { el.disabled = b; });
+  }
+
+  function notify(text, kind) {
+    const n = document.getElementById('notice');
+    n.textContent = text;
+    n.className = 'notice show ' + (kind || 'ok');
+    if (kind !== 'err') setTimeout(function () { n.className = 'notice'; }, 4000);
+  }
+
+  // ── DOM helper (text only, never innerHTML with user data) ─────────────────
+  function el(tag, attrs, children) {
+    const node = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === 'text') node.textContent = attrs[k];
+      else if (k === 'class') node.className = attrs[k];
+      else if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), attrs[k]);
+      else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { if (c) node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return node;
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+  function render(s) {
+    state = s;
+    document.getElementById('whoami').textContent = 'Signed in as ' + s.email;
+    const app = document.getElementById('app');
+    app.textContent = '';
+    app.appendChild(renderSettings(s));
+    app.appendChild(renderList(s));
+    app.appendChild(renderAdd(s));
+    setBusy(false);
+  }
+
+  function renderSettings(s) {
+    const nameInput = el('input', { type: 'text', id: 'name', value: s.name, maxlength: '100' });
+    const paused = el('input', { type: 'checkbox', id: 'paused' });
+    paused.checked = s.paused;
+    const modeBaseline = el('input', { type: 'radio', name: 'mode', value: 'baseline' });
+    const modeFull = el('input', { type: 'radio', name: 'mode', value: 'full' });
+    (s.mode === 'full' ? modeFull : modeBaseline).checked = true;
+
+    const save = el('button', { class: 'btn btn-primary', 'data-busy': '1', text: s.isNew ? 'Save and start' : 'Save settings',
+      onclick: function () {
+        call('saveSettings', [{ name: nameInput.value, paused: paused.checked,
+          mode: modeFull.checked ? 'full' : 'baseline' }], function (r) { render(r); notify('Settings saved.'); });
+      } });
+
+    return el('div', { class: 'card' }, [
+      el('div', { class: 'section-heading' }, [el('span', { text: 'Your settings' })]),
+      el('div', { class: 'field' }, [
+        el('label', { class: 'field-label', for: 'name', text: 'Your name' }), nameInput,
+        el('p', { class: 'hint', text: 'Used to greet you in the daily email. It goes to ' + s.email + '.' }),
+      ]),
+      el('div', { class: 'field' }, [
+        el('label', { class: 'field-label', text: 'When you add a company' }),
+        el('label', { class: 'choice' }, [modeBaseline, el('span', {}, ['Just start watching',
+          el('small', { text: 'Cases already open are noted quietly; you\'re emailed only about cases filed from now on. Recommended.' })])]),
+        el('label', { class: 'choice' }, [modeFull, el('span', {}, ['Email me the existing cases too',
+          el('small', { text: 'The next morning\'s email lists every open case involving the new company. Can be long for big companies.' })])]),
+      ]),
+      el('div', { class: 'field' }, [
+        el('label', { class: 'choice' }, [paused, el('span', {}, ['Pause my daily email',
+          el('small', { text: 'Your list is kept; nothing is sent until you untick this.' })])]),
+      ]),
+      el('div', { class: 'actions' }, [save]),
+    ]);
+  }
+
+  function renderList(s) {
+    const used = s.companies.reduce(function (n, c) { return n + c.searches.length; }, 0);
+    const body = el('div', {});
+    if (!s.companies.length) {
+      body.appendChild(el('p', { class: 'empty', text: 'Nothing yet. Add your first company below.' }));
+    }
+    s.companies.forEach(function (c) {
+      const terms = c.searches.map(function (t) {
+        return el('div', { class: 'term' }, [
+          el('span', { class: 'badge ' + t.type, text: t.type }),
+          el('span', { class: 'term-text', text: t.term }),
+          el('button', { class: 'remove-btn', title: 'Remove this search term', 'aria-label': 'Remove ' + t.term, 'data-busy': '1',
+            onclick: function () { call('removeTerm', [c.name, t.term, t.type], function (r) { render(r); notify('Removed "' + t.term + '".'); }); } }, ['×']),
+        ]);
+      });
+      body.appendChild(el('div', { class: 'company' }, [
+        el('div', { class: 'company-head' }, [
+          el('span', { class: 'company-name', text: c.name }),
+          el('button', { class: 'btn-link', 'data-busy': '1', text: 'Remove company',
+            onclick: function () {
+              if (!confirm('Stop watching ' + c.name + '?')) return;
+              call('removeCompany', [c.name], function (r) { render(r); notify('Stopped watching ' + c.name + '.'); });
+            } }),
+        ]),
+      ].concat(terms)));
+    });
+    return el('div', { class: 'card' }, [
+      el('div', { class: 'section-heading' }, [
+        el('span', { text: 'Companies you\'re watching' }),
+        el('span', { class: 'count', text: used + ' of ' + s.maxTerms + ' search terms used' }),
+      ]),
+      body,
+    ]);
+  }
+
+  function termRow(rows, initialTerm) {
+    let type = 'contains';
+    const input = el('input', { type: 'text', placeholder: 'e.g. Shopify', maxlength: '120' });
+    if (initialTerm) input.value = initialTerm;
+    const result = el('div', { class: 'test-result' });
+    const bContains = el('button', { type: 'button', class: 'on', text: 'Contains' });
+    const bExact = el('button', { type: 'button', text: 'Exact' });
+    function setType(t) { type = t; bContains.className = t === 'contains' ? 'on' : ''; bExact.className = t === 'exact' ? 'on' : ''; result.className = 'test-result'; }
+    bContains.addEventListener('click', function () { setType('contains'); });
+    bExact.addEventListener('click', function () { setType('exact'); });
+
+    const test = el('button', { type: 'button', class: 'btn test-btn', 'data-busy': '1', text: 'Test',
+      onclick: function () {
+        if (!input.value.trim()) { input.focus(); return; }
+        result.className = 'test-result show';
+        result.textContent = 'Checking the courts site…';
+        call('testTerm', [input.value, type], function (r) { showTest(result, r); });
+      } });
+    const row = el('div', { class: 'term-row' }, [
+      input,
+      el('div', { class: 'search-type' }, [bContains, bExact]),
+      test,
+      el('button', { type: 'button', class: 'remove-btn', title: 'Remove this row', text: '×',
+        onclick: function () { if (rows.children.length > 1) row.remove(); else input.value = ''; } }),
+      result,
+    ]);
+    row.getValue = function () { return { term: input.value.trim(), type: type }; };
+    row.input = input;
+    return row;
+  }
+
+  function showTest(box, r) {
+    box.textContent = '';
+    if (!r.ok) { box.appendChild(el('div', { text: r.message })); return; }
+    const n = r.count === 1 ? '1 matching party record' : (r.atLeast ? 'At least ' : '') + r.count + ' matching party records';
+    box.appendChild(el('div', { text: n + ' in open Toronto cases right now.' }));
+    if (r.sample.length) {
+      box.appendChild(el('div', { text: 'Examples:' }));
+      box.appendChild(el('ul', {}, r.sample.map(function (s) { return el('li', { text: s }); })));
+    }
+    if (r.warning) box.appendChild(el('div', { class: 'warn', text: r.warning }));
+  }
+
+  function renderAdd(s) {
+    const company = el('input', { type: 'text', id: 'company', placeholder: 'e.g. Shopify', maxlength: '100' });
+    const rows = el('div', {});
+    const first = termRow(rows);
+    rows.appendChild(first);
+    company.addEventListener('blur', function () {
+      if (company.value.trim() && !first.input.value.trim()) first.input.value = company.value.trim();
+    });
+
+    const add = el('button', { class: 'btn btn-primary', 'data-busy': '1', text: 'Add to my watchlist',
+      onclick: function () {
+        const searches = Array.prototype.map.call(rows.children, function (r) { return r.getValue(); })
+          .filter(function (x) { return x.term; });
+        call('addCompany', [{ company: company.value, searches: searches }], function (r) {
+          render(r); notify('Now watching ' + company.value.trim() + '. It takes effect on the next morning\'s run.');
+        });
+      } });
+
+    return el('div', { class: 'card' }, [
+      el('div', { class: 'section-heading' }, [el('span', { text: 'Add a company or institution' })]),
+      el('div', { class: 'field' }, [
+        el('label', { class: 'field-label', for: 'company', text: 'Name (for your email)' }), company,
+      ]),
+      el('label', { class: 'field-label', text: 'Search terms' }),
+      el('p', { class: 'hint', text: 'Companies often appear in court under several legal names (Bell Canada, Bell Mobility Inc., BCE Inc.). Add each one you want caught. Use Test to see what a term matches before adding it.' }),
+      rows,
+      el('div', { class: 'actions' }, [
+        el('button', { type: 'button', class: 'btn', text: '+ Another name for this company',
+          onclick: function () { rows.appendChild(termRow(rows)); } }),
+      ]),
+      el('div', { class: 'type-legend' }, [
+        el('strong', { text: 'Contains' }), ' — finds any party whose name includes your term. Good for distinctive names like ', el('em', { text: 'Telesat' }), ' or ', el('em', { text: 'Shopify' }), '. Multi-word terms must appear as a whole phrase.',
+        el('br'),
+        el('strong', { text: 'Exact' }), ' — matches only a party with precisely that name, including suffixes like "INC." or "LIMITED". Use it for big companies whose names are built from common words (', el('em', { text: 'BELL MOBILITY INC.' }), ', for instance). A Contains search on common words makes the courts site return so many records that it hits its cap and misses some. Test will warn you when that happens.',
+      ]),
+      el('div', { class: 'actions' }, [add]),
+    ]);
+  }
+
+  call('getState', [], render);
+</script>
+</body>
+</html>
